@@ -11,9 +11,16 @@ write_1_svc(message *argp, struct svc_req *rqstp)
 {
 	static int  result;
 
-	/*
-	 * insert server code here
-	 */
+	FILE *f;
+
+	f = fopen("./TheChat.txt", "w");
+
+	if (NULL != f)
+	{
+		printf("%s\n", *argp);
+		fprintf(f, "%s\n", *argp);
+		fclose(f);
+	}
 
 	return &result;
 }
