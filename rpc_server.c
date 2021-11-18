@@ -13,7 +13,7 @@ write_1_svc(message *argp, struct svc_req *rqstp)
 
 	FILE *f;
 
-	f = fopen("./TheChat.txt", "w");
+	f = fopen("./TheChat.txt", "a");
 
 	if (NULL != f)
 	{
