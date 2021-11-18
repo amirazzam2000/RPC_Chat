@@ -36,7 +36,7 @@ program_write_1(char *host)
 		fflush(stdin);
 
 		msg.message[strlen(msg.message)] = 0;
-		print("|%s|", msg.message);
+		printf("|%s|", msg.message);
 
 		if (strcmp(msg.message, "quit") == 0) break;
 		
