@@ -26,14 +26,13 @@ program_write_1(char *host)
 	}
 #endif	/* DEBUG */
 	printf("Enter your username: ");
-	scanf("%s", msg.name);
-	msg.name[ strlen(msg.name)] = 0;
+	fgets(msg.name, 10, stdin);
+	msg.name[ strlen(msg.name) - 1 ] = 0;
 
 	while(1)
 	{
 		printf("\n[%s]: ", msg.name);
 		fgets(msg.message, 269, stdin);
-		
 		fflush(stdin);
 
 		msg.message[strlen(msg.message) - 1] = 0;
