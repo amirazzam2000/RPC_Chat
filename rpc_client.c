@@ -32,7 +32,7 @@ program_write_1(char *host)
 	while(1)
 	{
 		printf("\n[%s]: ", msg.name);
-		scanf("%s", msg.message);
+		fgets(msg.message, 269, stdin);
 		fflush(stdin);
 
 		msg.message[strlen(msg.message)] = 0;
