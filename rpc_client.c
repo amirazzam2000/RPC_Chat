@@ -6,7 +6,8 @@
 
 #include "rpc.h"
 #include <string.h>
-
+#include <stdio.h>
+#include <stdlib.h>
 
 void
 program_write_1(char *host)
@@ -32,7 +33,7 @@ program_write_1(char *host)
 	{
 		printf("\n[%s]: ", msg.name);
 		scanf("%s", msg.message);
-		
+		fflush(stdin);
 
 		msg.message[strlen(msg.message) - 1 ] = 0;
 
@@ -42,7 +43,7 @@ program_write_1(char *host)
 		{
 			chat = getchat_1(&getchat_1_arg, clnt);
 			printf("%s \n", chat->block);
-			
+
 			if (chat == (chat_block *)NULL)
 			{
 				clnt_perror(clnt, "call failed");
