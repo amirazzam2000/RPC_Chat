@@ -17,8 +17,8 @@ write_1_svc(message *argp, struct svc_req *rqstp)
 
 	if (NULL != f)
 	{
-		printf("%s\n", *argp);
-		fprintf(f, "%s\n", *argp);
+		printf("%s\n", *argp->message);
+		fprintf(f, "%s\n", *argp->message);
 		fclose(f);
 	}
 

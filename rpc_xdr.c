@@ -10,7 +10,7 @@ xdr_message (XDR *xdrs, message *objp)
 {
 	register int32_t *buf;
 
-	int i;
+	//int i;
 	 if (!xdr_vector (xdrs, (char *)objp->message, 269,
 		sizeof (char), (xdrproc_t) xdr_char))
 		 return FALSE;
@@ -23,7 +23,7 @@ xdr_message (XDR *xdrs, message *objp)
 bool_t
 xdr_chat_block (XDR *xdrs, chat_block *objp)
 {
-	register int32_t *buf;
+	//register int32_t *buf;
 
 	int i;
 	 if (!xdr_vector (xdrs, (char *)objp->block, 900,
