@@ -5,15 +5,16 @@
  */
 
 #include "rpc.h"
+#include <string.h>
 
 
 void
 program_write_1(char *host)
 {
 	CLIENT *clnt;
-	int  *result_1;
-	message  write_1_arg;
-	chat_block  *result_2;
+	//int  *result_1;
+	message  msg;
+	chat_block  *chat;
 	int  getchat_1_arg;
 
 #ifndef	DEBUG
@@ -22,15 +23,45 @@ program_write_1(char *host)
 		clnt_pcreateerror (host);
 		exit (1);
 	}
-#endif	/* DEBUG */
+#endif	/* DEBUG                                       
+                                                      
+   result_1 = write_1(&write_1_arg, clnt);            
+   if (result_1 == (void *) NULL) {                   
+		   clnt_perror (clnt, "call failed");         
+   }                                                  
+   result_2 = getchat_1((void*)&getchat_1_arg, clnt); 
+   if (result_2 == (char **) NULL) {                  
+		   clnt_perror (clnt, "call failed");         
+   }                                                  
+		*/
+	//get username
+	printf("Enter your username: ");
+	scanf("%s\n",msg.name)
+	
 
-	result_1 = write_1(&write_1_arg, clnt);
-	if (result_1 == (int *) NULL) {
-		clnt_perror (clnt, "call failed");
-	}
-	result_2 = getchat_1(&getchat_1_arg, clnt);
-	if (result_2 == (chat_block *) NULL) {
-		clnt_perror (clnt, "call failed");
+	while (1)
+	{
+
+		chat = getchat_1_svc((void *)&getchat_1_arg, clnt);
+		if (chat == (char **)NULL)
+		{
+			clnt_perror(clnt, "call failed");
+		}
+		printf("%s\n", *chat);
+
+		printf("Enter message: ");
+		scanf("%s", msg.message);
+		msg.message[strlen(msg.message) - 1] = 0;
+
+		if (strcmp(msg.message, "quit") == 0)
+			break;
+
+		result_1 = write_1_svc(&message, clnt);
+		if (result_1 == (void *)NULL)
+		{
+			clnt_perror(clnt, "call failed");
+		}
+
 	}
 #ifndef	DEBUG
 	clnt_destroy (clnt);
