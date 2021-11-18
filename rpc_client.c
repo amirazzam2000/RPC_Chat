@@ -5,7 +5,6 @@
  */
 
 #include "rpc.h"
-#include <string.h>
 
 
 void
@@ -13,9 +12,9 @@ program_write_1(char *host)
 {
 	CLIENT *clnt;
 	int  *result_1;
-	message  msg;
-	//chat_block  *chat;
-	//int  getchat_1_arg;
+	message  write_1_arg;
+	chat_block  *result_2;
+	int  getchat_1_arg;
 
 #ifndef	DEBUG
 	clnt = clnt_create (host, PROGRAM_WRITE, VERSION_WRITE, "udp");
@@ -23,27 +22,15 @@ program_write_1(char *host)
 		clnt_pcreateerror (host);
 		exit (1);
 	}
-#endif	
+#endif	/* DEBUG */
 
-	//get username
-	printf("Enter your username: ");
-	scanf("%s\n",msg.name);
-	
-
-	while (1)
-	{
-		printf("Enter message: ");
-		scanf("%s", msg.message);
-		msg.message[strlen(msg.message) - 1] = 0;
-
-		if (strcmp(msg.message, "quit") == 0)
-			break;
-
-		result_1 = write_1_svc(&msg, clnt);
-		if (result_1 == (int *) NULL)
-		{
-			clnt_perror(clnt, "call failed");
-		}
+	result_1 = write_1(&write_1_arg, clnt);
+	if (result_1 == (int *) NULL) {
+		clnt_perror (clnt, "call failed");
+	}
+	result_2 = getchat_1(&getchat_1_arg, clnt);
+	if (result_2 == (chat_block *) NULL) {
+		clnt_perror (clnt, "call failed");
 	}
 #ifndef	DEBUG
 	clnt_destroy (clnt);
