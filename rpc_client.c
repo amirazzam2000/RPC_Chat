@@ -12,7 +12,7 @@ void
 program_write_1(char *host)
 {
 	CLIENT *clnt;
-	//int  *result_1;
+	int  *result_1;
 	message  msg;
 	//chat_block  *chat;
 	//int  getchat_1_arg;
