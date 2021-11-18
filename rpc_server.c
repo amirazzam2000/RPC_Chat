@@ -17,8 +17,9 @@ write_1_svc(message *argp, struct svc_req *rqstp)
 
 	if (NULL != f)
 	{
-		printf("%s\n", argp->message);
-		fprintf(f, "%s\n",argp->message);
+		printf("[%s]: %s\n", argp->name, argp->message);
+		fprintf(f, "[%s]: %s\n", argp->name, argp->message);
+
 		fclose(f);
 	}
 
@@ -28,11 +29,21 @@ write_1_svc(message *argp, struct svc_req *rqstp)
 chat_block *
 getchat_1_svc(int *argp, struct svc_req *rqstp)
 {
-	static chat_block  result;
+	static chat_block  chat;
 
-	/*
-	 * insert server code here
-	 */
+	FILE *f;
 
-	return &result;
+	f = fopen("./TheChat.txt", "r");
+
+	if (NULL != f)
+	{
+		fgets(chat.block, 900, f);
+		printf("reading : ------ \n");
+		printf("%s", chat.block);
+		printf("\n------ \n");
+
+		fclose(f);
+	}
+
+	return &chat;
 }

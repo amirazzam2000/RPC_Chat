@@ -14,7 +14,7 @@ program_write_1(char *host)
 	CLIENT *clnt;
 	int  *result_1;
 	message  msg;
-	chat_block  *result_2;
+	chat_block  *chat;
 	int  getchat_1_arg;
 
 #ifndef	DEBUG
@@ -24,21 +24,32 @@ program_write_1(char *host)
 		exit (1);
 	}
 #endif	/* DEBUG */
+	printf("Enter your username: ");
+	scanf("%s", msg.name);
+	msg.name[ strlen(msg.name)-1 ] = 0;
+
 	while(1)
 	{
-		printf("Enter your username: ");
-		scanf("%s", msg.name);
-		msg.name[ strlen(msg.name)-1 ] = 0;
-
-		printf("\n");
-		
-		printf("[%s]: ", msg.name);
+		printf("\n[%s]: ", msg.name);
 		scanf("%s", msg.message);
 		
 
 		msg.message[strlen(msg.message) - 1 ] = 0;
 
 		if (strcmp(msg.message, "quit") == 0) break;
+		
+		if (strcmp(msg.message, "read") == 0) 
+		{
+			chat = getchat_1(&getchat_1_arg, clnt);
+			printf("%s \n", chat->block);
+			
+			if (chat == (chat_block *)NULL)
+			{
+				clnt_perror(clnt, "call failed");
+			}
+			continue;
+		}
+
 
 			result_1 = write_1(&msg, clnt);
 		if (result_1 == (int *)NULL)
@@ -47,8 +58,8 @@ program_write_1(char *host)
 		}
 	}
 	
-	result_2 = getchat_1(&getchat_1_arg, clnt);
-	if (result_2 == (chat_block *) NULL) {
+	chat = getchat_1(&getchat_1_arg, clnt);
+	if (chat == (chat_block *) NULL) {
 		clnt_perror (clnt, "call failed");
 	}
 #ifndef	DEBUG
