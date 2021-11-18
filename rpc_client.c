@@ -39,7 +39,7 @@ program_write_1(char *host)
 		if (strcmp(msg.message, "quit") == 0)
 			break;
 
-		result_1 = write_1_svc(&message, clnt);
+		result_1 = write_1_svc(&msg, clnt);
 		if (result_1 == (void *)NULL)
 		{
 			clnt_perror(clnt, "call failed");
