@@ -24,13 +24,26 @@ program_write_1(char *host)
 		exit (1);
 	}
 #endif	/* DEBUG */
-	//printf("[+%s*]: ", msg.name);
-	strcpy(msg.message , "hello! :P\n");
-	
-	result_1 = write_1(&msg, clnt);
-	if (result_1 == (int *) NULL) {
-		clnt_perror (clnt, "call failed");
+	while(1)
+	{
+		printf("Enter your username: ");
+		scanf("%s\n", msg.name);
+		msg.name[strlen(msg.name)-1]=0;
+		
+		printf("[+%s*]: ", msg.name);
+		scanf("%s\n", msg.message);
+
+		msg.message[strlen(msg.message) - 1 ] = 0;
+
+		if (strcmp(msg.message, "quit") == 0) break;
+
+			result_1 = write_1(&msg, clnt);
+		if (result_1 == (int *)NULL)
+		{
+			clnt_perror(clnt, "call failed");
+		}
 	}
+	
 	result_2 = getchat_1(&getchat_1_arg, clnt);
 	if (result_2 == (chat_block *) NULL) {
 		clnt_perror (clnt, "call failed");
