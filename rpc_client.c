@@ -25,7 +25,7 @@ program_write_1(char *host)
 	}
 #endif	/* DEBUG */
 	//printf("[+%s*]: ", msg.name);
-	strcpy(msg.messag, "hello! :P");
+	strcpy(msg.message , "hello! :P\n");
 	
 	result_1 = write_1(&msg, clnt);
 	if (result_1 == (int *) NULL) {
