@@ -27,11 +27,13 @@ program_write_1(char *host)
 	while(1)
 	{
 		printf("Enter your username: ");
-		scanf("%s\n", msg.name);
-		msg.name[strlen(msg.name)-1]=0;
+		scanf("%s", msg.name);
+		msg.name[ strlen(msg.name)-1 ] = 0;
+
+		printf("\n")
+		printf("[%s]: ", msg.name);
+		scanf("%s", msg.message);
 		
-		printf("[+%s*]: ", msg.name);
-		scanf("%s\n", msg.message);
 
 		msg.message[strlen(msg.message) - 1 ] = 0;
 
