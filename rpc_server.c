@@ -47,7 +47,7 @@ getchat_1_svc(int *argp, struct svc_req *rqstp)
 			p = fgets(aux, 900, f);
 			strcat(chat.block, aux);
 
-		} while (!feof() && strlen(chat.block) < 900);
+		} while ( p != feof() && strlen(chat.block) < 900);
 		
 		printf("reading : ------ \n");
 		printf("%s", chat.block);
