@@ -40,11 +40,10 @@ program_write_1(char *host)
 			break;
 
 		result_1 = write_1_svc(&msg, clnt);
-		if (result_1 == (void *)NULL)
+		if (result_1 == (int *) NULL)
 		{
 			clnt_perror(clnt, "call failed");
 		}
-
 	}
 #ifndef	DEBUG
 	clnt_destroy (clnt);
