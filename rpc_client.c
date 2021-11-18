@@ -30,7 +30,8 @@ program_write_1(char *host)
 		scanf("%s", msg.name);
 		msg.name[ strlen(msg.name)-1 ] = 0;
 
-		printf("\n")
+		printf("\n");
+		
 		printf("[%s]: ", msg.name);
 		scanf("%s", msg.message);
 		
