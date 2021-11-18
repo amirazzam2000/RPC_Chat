@@ -27,7 +27,7 @@ program_write_1(char *host)
 #endif	/* DEBUG */
 	printf("Enter your username: ");
 	scanf("%s", msg.name);
-	msg.name[ strlen(msg.name)-1 ] = 0;
+	msg.name[ strlen(msg.name)] = 0;
 
 	while(1)
 	{
@@ -35,7 +35,8 @@ program_write_1(char *host)
 		scanf("%s", msg.message);
 		fflush(stdin);
 
-		msg.message[strlen(msg.message) - 1 ] = 0;
+		msg.message[strlen(msg.message)] = 0;
+		print("|%s|", msg.message);
 
 		if (strcmp(msg.message, "quit") == 0) break;
 		
