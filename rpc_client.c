@@ -5,6 +5,7 @@
  */
 
 #include "rpc.h"
+#include <string.h>
 
 
 void
@@ -12,7 +13,7 @@ program_write_1(char *host)
 {
 	CLIENT *clnt;
 	int  *result_1;
-	message  write_1_arg;
+	message  msg;
 	chat_block  *result_2;
 	int  getchat_1_arg;
 
@@ -23,8 +24,10 @@ program_write_1(char *host)
 		exit (1);
 	}
 #endif	/* DEBUG */
-
-	result_1 = write_1(&write_1_arg, clnt);
+	//printf("[+%s*]: ", msg.name);
+	strcpy(msg.messag, "hello! :P");
+	
+	result_1 = write_1(&msg, clnt);
 	if (result_1 == (int *) NULL) {
 		clnt_perror (clnt, "call failed");
 	}
