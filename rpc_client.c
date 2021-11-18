@@ -14,8 +14,8 @@ program_write_1(char *host)
 	CLIENT *clnt;
 	//int  *result_1;
 	message  msg;
-	chat_block  *chat;
-	int  getchat_1_arg;
+	//chat_block  *chat;
+	//int  getchat_1_arg;
 
 #ifndef	DEBUG
 	clnt = clnt_create (host, PROGRAM_WRITE, VERSION_WRITE, "udp");
@@ -23,32 +23,15 @@ program_write_1(char *host)
 		clnt_pcreateerror (host);
 		exit (1);
 	}
-#endif	/* DEBUG                                       
-                                                      
-   result_1 = write_1(&write_1_arg, clnt);            
-   if (result_1 == (void *) NULL) {                   
-		   clnt_perror (clnt, "call failed");         
-   }                                                  
-   result_2 = getchat_1((void*)&getchat_1_arg, clnt); 
-   if (result_2 == (char **) NULL) {                  
-		   clnt_perror (clnt, "call failed");         
-   }                                                  
-		*/
+#endif	
+
 	//get username
 	printf("Enter your username: ");
-	scanf("%s\n",msg.name)
+	scanf("%s\n",msg.name);
 	
 
 	while (1)
 	{
-
-		chat = getchat_1_svc((void *)&getchat_1_arg, clnt);
-		if (chat == (char **)NULL)
-		{
-			clnt_perror(clnt, "call failed");
-		}
-		printf("%s\n", *chat);
-
 		printf("Enter message: ");
 		scanf("%s", msg.message);
 		msg.message[strlen(msg.message) - 1] = 0;
