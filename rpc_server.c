@@ -41,11 +41,12 @@ getchat_1_svc(int *argp, struct svc_req *rqstp)
 
 	if (NULL != f)
 	{
-		int p = 0;
+		int p = getc(f);
 		char aux[300];
 
 		do {
-			p = fgets(aux, 900, f);
+			p = getc(f);
+			fgets(aux, 900, f);
 			strcat(chat.block, aux);
 
 		} while ( p != EOF && strlen(chat.block) < 900);
