@@ -33,9 +33,10 @@ program_write_1(char *host)
 	{
 		printf("\n[%s]: ", msg.name);
 		fgets(msg.message, 269, stdin);
+		
 		fflush(stdin);
 
-		msg.message[strlen(msg.message)] = 0;
+		msg.message[strlen(msg.message) - 1] = 0;
 		printf("|%s|", msg.message);
 
 		if (strcmp(msg.message, "quit") == 0) break;
