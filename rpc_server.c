@@ -10,6 +10,7 @@ int *
 write_1_svc(message *argp, struct svc_req *rqstp)
 {
 	static int  result;
+	char buffer[300];
 
 	FILE *f;
 
@@ -18,7 +19,9 @@ write_1_svc(message *argp, struct svc_req *rqstp)
 	if (NULL != f)
 	{
 		printf("[%s]: %s\n", argp->name, argp->message);
-		fprintf(f, "[%s]: %s\n", argp->name, argp->message);
+		sprintf(buffer, "[%s]: %s\n", argp->name, argp->message);
+
+		fputs(buffer , f);
 
 		fclose(f);
 	}
