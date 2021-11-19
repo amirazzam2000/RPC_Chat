@@ -29,7 +29,7 @@ write_1_svc(message *argp, struct svc_req *rqstp)
 
 		fputs(buffer, f);
 
-		//result = strlen(buffer);
+		result = strlen(buffer);
 
 		fclose(f);
 	}
@@ -44,7 +44,7 @@ getchat_1_svc(int *client_revision, struct svc_req *rqstp)
 
 	FILE *f;
 
-	printf("Reading request!");
+	
 	f = fopen("./TheChat.txt", "r");
 	
 
@@ -87,7 +87,13 @@ getchat_1_svc(int *client_revision, struct svc_req *rqstp)
 		}
 		
 		fclose(f);
+	}else{
+		printf("omg no\n");
+		chat.block[0] = 0;
+		chat.revision_number = 0;
+		chat.total_revisions = 0;
 	}
+
 
 	return &chat;
 }

@@ -48,7 +48,7 @@ program_write_1(char *host)
 			
 			if (my_revision >= chat->total_revisions)
 			{
-				printf("No new messages!\n");
+				//printf("No new messages!\n");
 			}
 
 			if (chat == (chat_block *)NULL)
@@ -66,8 +66,8 @@ program_write_1(char *host)
 			msg.message[strlen(msg.message) - 1] = 0;
 			result_1 = write_1(&msg, clnt);
 			
-			printf("\nmessage sent!\n");
-			//my_revision += *result_1;
+			//printf("\nmessage sent!\n");
+			my_revision += *result_1;
 
 			if (result_1 == (int *)NULL)
 			{
