@@ -57,6 +57,7 @@ getchat_1_svc(int *client_revision, struct svc_req *rqstp)
 			char *feof;
 			char aux[300];
 
+			fseek(f, *client_revision, SEEK_SET);
 			do
 			{
 				feof = fgets(aux, reading_size, f);
