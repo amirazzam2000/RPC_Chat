@@ -70,7 +70,7 @@ getchat_1_svc(int *client_revision, struct svc_req *rqstp)
 			printf("\n\nreading : ------ \n");
 			printf("%s", chat.block);
 			printf("\n------ \n");
-			print("revisions: total = %d, Client = %d, Client_new = %d \n\n",total_revision, *client_revision, chat.revision_number );
+			printf("revisions: total = %d, Client = %d, Client_new = %d \n\n",total_revision, *client_revision, chat.revision_number );
 		}
 		else{
 			chat.block[0] = 0;
