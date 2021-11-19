@@ -16,6 +16,8 @@ write_1_svc(message *argp, struct svc_req *rqstp)
 
 	//bzero(buffer, 300);
 
+	printf("message recieved!");
+
 	FILE *f;
 
 	f = fopen("./TheChat.txt", "a");
@@ -27,7 +29,7 @@ write_1_svc(message *argp, struct svc_req *rqstp)
 
 		fputs(buffer, f);
 
-		result = strlen(buffer);
+		//result = strlen(buffer);
 
 		fclose(f);
 	}
