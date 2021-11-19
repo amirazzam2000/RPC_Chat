@@ -44,6 +44,7 @@ program_write_1(char *host)
 			if (chat->block[0] != 0)
 				printf("%s", chat->block);
 
+			printf("Reading\n");
 			my_revision = chat->revision_number;
 			
 			if (my_revision >= chat->total_revisions)
