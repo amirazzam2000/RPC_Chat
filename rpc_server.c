@@ -63,6 +63,8 @@ getchat_1_svc(int *client_revision, struct svc_req *rqstp)
 		printf("before the if\n");
 
 		if(total_revision > *client_revision && total_revision > 0){
+
+			printf("I'm in side the if!\n");
 			int reading_size = total_revision - *client_revision > 900 ?  900 : (total_revision - *client_revision);
 
 			char *feof;
@@ -85,6 +87,7 @@ getchat_1_svc(int *client_revision, struct svc_req *rqstp)
 			printf("revisions: total = %d, Client = %d, Client_new = %d \n\n",total_revision, *client_revision, chat.revision_number );
 		}
 		else{
+			printf("in the else\n");
 			chat.block[0] = 0;
 			chat.revision_number = *client_revision;
 		}
