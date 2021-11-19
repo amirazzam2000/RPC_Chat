@@ -44,20 +44,23 @@ getchat_1_svc(int *client_revision, struct svc_req *rqstp)
 
 	FILE *f;
 
-	//printf("opening file here\n");
+	printf("opening file here\n");
 	f = fopen("./TheChat.txt", "r");
 	
 
 	if (NULL != f)
 	{
+
+		printf("Seeking to the end\n");
 		fseek(f, 0L, SEEK_END);
-		
+
+		printf("reading number of revisions!\n");
 		int total_revision = ftell(f);
 		chat.total_revisions = total_revision;
 
 		fseek(f, 0L, SEEK_SET);
 		
-		
+		printf("before the if\n");
 
 		if(total_revision > *client_revision && total_revision > 0){
 			int reading_size = total_revision - *client_revision > 900 ?  900 : (total_revision - *client_revision);
