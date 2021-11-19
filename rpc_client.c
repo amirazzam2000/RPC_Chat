@@ -30,6 +30,9 @@ program_write_1(char *host)
 	fgets(msg.name, 10, stdin);
 	msg.name[ strlen(msg.name) - 1 ] = 0;
 
+	int flags = fcntl(0, F_GETFL, 0);
+	fcntl(0, F_SETFL, flags | O_NONBLOCK);
+
 	while(1)
 	{
 		//Get chat
