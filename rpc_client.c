@@ -45,7 +45,7 @@ program_write_1(char *host)
 			
 			if (my_revision >= chat->total_revisions)
 			{
-				printf("No new messages!\n");
+				//printf("No new messages!\n");
 			}
 
 			if (chat == (chat_block *)NULL)
