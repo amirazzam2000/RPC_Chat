@@ -44,7 +44,7 @@ getchat_1_svc(int *client_revision, struct svc_req *rqstp)
 
 	FILE *f;
 
-	
+	printf("opening file here\n");
 	f = fopen("./TheChat.txt", "r");
 	
 
