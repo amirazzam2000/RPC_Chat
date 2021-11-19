@@ -14,7 +14,7 @@ write_1_svc(message *argp, struct svc_req *rqstp)
 	static int  result;
 	char buffer[300];
 
-	//bzero(buffer, 300);
+	bzero(buffer, 300);
 
 	printf("message recieved!");
 
