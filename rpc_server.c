@@ -86,6 +86,8 @@ getchat_1_svc(int *client_revision, struct svc_req *rqstp)
 		else{
 			chat.block[0] = 0;
 			chat.revision_number = *client_revision;
+			if (chat.total_revisions <= 1)
+				chat.total_revisions = 0;
 		}
 		
 		fclose(f);

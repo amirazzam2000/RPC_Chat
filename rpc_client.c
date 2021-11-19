@@ -19,7 +19,7 @@ program_write_1(char *host)
 	int  *result_1;
 	message  msg;
 	chat_block  *chat;
-	int  my_revision = 1;
+	int  my_revision = 0;
 
 #ifndef	DEBUG
 	clnt = clnt_create (host, PROGRAM_WRITE, VERSION_WRITE, "udp");
