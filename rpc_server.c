@@ -38,23 +38,45 @@ getchat_1_svc(int *argp, struct svc_req *rqstp)
 	FILE *f;
 
 	f = fopen("./TheChat.txt", "r");
+	
 
 	if (NULL != f)
 	{
-		char * feof;
-		char aux[300];
-
-		do {
-			feof = fgets(aux, 900, f);
-			if (NULL != feof)
-				strcat(chat.block, aux);
-
-		} while ( NULL != feof && strlen(chat.block) < 900);
+		fseek(f, 0L, SEEK_END);
 		
-		printf("reading : ------ \n");
-		printf("%s", chat.block);
-		printf("\n------ \n");
+		int total_revision = ftell(f);
+		chat.total_revisions = total_revision;
 
+		fseek(fp, 0L, SEEK_SET);
+		
+		int client_revision = *argp;
+
+		if(total_revision > client_revesion){
+			int reading_size = total_revision - client_revesion > 900 ?  900 : (total_revision - client_revesion);
+
+			char *feof;
+			char aux[300];
+
+			do
+			{
+				feof = fgets(aux, reading_size, f);
+				if (NULL != feof)
+					strcat(chat.block, aux);
+
+			} while (NULL != feof && strlen(chat.block) < reading_size);
+
+			chat.revision_number = client_revesion + reading_size;
+
+			printf("\n\nreading : ------ \n");
+			printf("%s", chat.block);
+			printf("\n------ \n");
+			print("revisions: total = %d, Client = %d, Client_new = %d \n\n",total_revision, client_revesion, chat.revision_number );
+		}
+		else{
+			chat.block[0] = 0;
+			chat.revision_number = client_revesion;
+		}
+		
 		fclose(f);
 	}
 

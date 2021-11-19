@@ -16,7 +16,7 @@ program_write_1(char *host)
 	int  *result_1;
 	message  msg;
 	chat_block  *chat;
-	int  getchat_1_arg;
+	int  my_revision;
 
 #ifndef	DEBUG
 	clnt = clnt_create (host, PROGRAM_WRITE, VERSION_WRITE, "udp");
@@ -31,35 +31,43 @@ program_write_1(char *host)
 
 	while(1)
 	{
-		printf("\n[%s]: ", msg.name);
-		fgets(msg.message, 269, stdin);
-		fflush(stdin);
-
-		msg.message[strlen(msg.message) - 1] = 0;
-
-		if (strcmp(msg.message, "quit") == 0) break;
-		
-		if (strcmp(msg.message, "read") == 0) 
+		//Get chat
+		do
 		{
-			chat = getchat_1(&getchat_1_arg, clnt);
-			printf("%s \n", chat->block);
+			chat = getchat_1(&my_revision, clnt);
+			printf("%s", chat->block);
+			*my_revision = chat->revision_number;
 
 			if (chat == (chat_block *)NULL)
 			{
 				clnt_perror(clnt, "call failed");
 			}
-			continue;
-		}
 
+			if (*my_revision >= chat->total_revisions)
+			{
+				printf("\n");
+			}
+		} while (*my_revision < chat->total_revisions);
+		
 
-			result_1 = write_1(&msg, clnt);
-		if (result_1 == (int *)NULL)
+		//Read
+		while (read(0, msg.message, sizeof(msg.message)) > 0)
 		{
-			clnt_perror(clnt, "call failed");
+			msg.message[strlen(msg.message) - 1] = 0;
+			result_1 = write_1(&msg, clnt);
+			if (result_1 == (int *)NULL)
+			{
+				clnt_perror(clnt, "call failed");
+			}
 		}
+		fflush(stdin);	
+		if (strcmp(msg.message, "quit") == 0) break;
+
+		//Sleep
+		sleep(1);		
 	}
 	
-	chat = getchat_1(&getchat_1_arg, clnt);
+	chat = getchat_1(&my_revision, clnt);
 	if (chat == (chat_block *) NULL) {
 		clnt_perror (clnt, "call failed");
 	}
