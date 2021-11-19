@@ -15,7 +15,7 @@ write_1(message *argp, CLIENT *clnt)
 	static int clnt_res;
 
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
-	if (clnt_call (clnt, write,
+	if (clnt_call (clnt, WRITE,
 		(xdrproc_t) xdr_message, (caddr_t) argp,
 		(xdrproc_t) xdr_int, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {

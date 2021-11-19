@@ -31,7 +31,7 @@ typedef struct chat_block chat_block;
 #define VERSION_WRITE 1
 
 #if defined(__STDC__) || defined(__cplusplus)
-#define write 0
+#define WRITE 0
 extern  int * write_1(message *, CLIENT *);
 extern  int * write_1_svc(message *, struct svc_req *);
 #define getChat 1
@@ -40,7 +40,7 @@ extern  chat_block * getchat_1_svc(int *, struct svc_req *);
 extern int program_write_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
 
 #else /* K&R C */
-#define write 0
+#define WRITE 0
 extern  int * write_1();
 extern  int * write_1_svc();
 #define getChat 1

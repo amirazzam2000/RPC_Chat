@@ -28,7 +28,7 @@ program_write_1(struct svc_req *rqstp, register SVCXPRT *transp)
 	char *(*local)(char *, struct svc_req *);
 
 	switch (rqstp->rq_proc) {
-	case write:
+	case WRITE:
 		_xdr_argument = (xdrproc_t) xdr_message;
 		_xdr_result = (xdrproc_t) xdr_int;
 		local = (char *(*)(char *, struct svc_req *)) write_1_svc;
