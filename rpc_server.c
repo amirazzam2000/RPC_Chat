@@ -13,6 +13,8 @@ write_1_svc(message *argp, struct svc_req *rqstp)
 	static int  result;
 	char buffer[300];
 
+	bzero(buffer, 300);
+
 	FILE *f;
 
 	f = fopen("./TheChat.txt", "a");
@@ -20,7 +22,7 @@ write_1_svc(message *argp, struct svc_req *rqstp)
 	if (NULL != f)
 	{
 		printf("[%s]: %s\n", argp->name, argp->message);
-		sprintf(buffer, "[%s]: %s\n\0", argp->name, argp->message);
+		sprintf(buffer, "[%s]: %s\n", argp->name, argp->message);
 
 		fputs(buffer, f);
 
