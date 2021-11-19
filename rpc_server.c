@@ -20,9 +20,11 @@ write_1_svc(message *argp, struct svc_req *rqstp)
 	if (NULL != f)
 	{
 		printf("[%s]: %s\n", argp->name, argp->message);
-		sprintf(buffer, "[%s]: %s\n", argp->name, argp->message);
+		sprintf(buffer, "[%s]: %s\n\0", argp->name, argp->message);
 
-		fputs(buffer , f);
+		fputs(buffer, f);
+
+		result = strlen(buffer);
 
 		fclose(f);
 	}

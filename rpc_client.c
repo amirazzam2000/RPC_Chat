@@ -57,12 +57,14 @@ program_write_1(char *host)
 		} while (my_revision < chat->total_revisions);
 		
 
-		//Read
+		//Read input
 		while (read(0, msg.message, sizeof(msg.message)) > 0)
 		{
 			msg.message[strlen(msg.message) - 1] = 0;
 			result_1 = write_1(&msg, clnt);
 
+			my_revision += result_1;
+			
 			printf("\nmessage sent!\n");
 			if (result_1 == (int *)NULL)
 			{
