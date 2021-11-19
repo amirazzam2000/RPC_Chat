@@ -38,16 +38,18 @@ program_write_1(char *host)
 			chat = getchat_1(&my_revision, clnt);
 			printf("%s", chat->block);
 			my_revision = chat->revision_number;
+			
+			if (my_revision >= chat->total_revisions)
+			{
+				printf("No new messages!\n");
+			}
 
 			if (chat == (chat_block *)NULL)
 			{
 				clnt_perror(clnt, "call failed");
 			}
 
-			if (my_revision >= chat->total_revisions)
-			{
-				printf("\n");
-			}
+			
 		} while (my_revision < chat->total_revisions);
 		
 
@@ -70,10 +72,6 @@ program_write_1(char *host)
 		sleep(1);		
 	}
 	
-	chat = getchat_1(&my_revision, clnt);
-	if (chat == (chat_block *) NULL) {
-		clnt_perror (clnt, "call failed");
-	}
 #ifndef	DEBUG
 	clnt_destroy (clnt);
 #endif	 /* DEBUG */
