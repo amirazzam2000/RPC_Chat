@@ -31,7 +31,7 @@ write_1_svc(message *argp, struct svc_req *rqstp)
 }
 
 chat_block *
-getchat_1_svc(int *argp, struct svc_req *rqstp)
+getchat_1_svc(int *client_revision, struct svc_req *rqstp)
 {
 	static chat_block  chat;
 
@@ -47,12 +47,12 @@ getchat_1_svc(int *argp, struct svc_req *rqstp)
 		int total_revision = ftell(f);
 		chat.total_revisions = total_revision;
 
-		fseek(fp, 0L, SEEK_SET);
+		fseek(f, 0L, SEEK_SET);
 		
-		int client_revision = *argp;
+		
 
-		if(total_revision > client_revesion){
-			int reading_size = total_revision - client_revesion > 900 ?  900 : (total_revision - client_revesion);
+		if(total_revision > *client_revision){
+			int reading_size = total_revision - *client_revision > 900 ?  900 : (total_revision - *client_revision);
 
 			char *feof;
 			char aux[300];
@@ -65,16 +65,16 @@ getchat_1_svc(int *argp, struct svc_req *rqstp)
 
 			} while (NULL != feof && strlen(chat.block) < reading_size);
 
-			chat.revision_number = client_revesion + reading_size;
+			chat.revision_number = *client_revision + reading_size;
 
 			printf("\n\nreading : ------ \n");
 			printf("%s", chat.block);
 			printf("\n------ \n");
-			print("revisions: total = %d, Client = %d, Client_new = %d \n\n",total_revision, client_revesion, chat.revision_number );
+			print("revisions: total = %d, Client = %d, Client_new = %d \n\n",total_revision, *client_revision, chat.revision_number );
 		}
 		else{
 			chat.block[0] = 0;
-			chat.revision_number = client_revesion;
+			chat.revision_number = *client_revision;
 		}
 		
 		fclose(f);
