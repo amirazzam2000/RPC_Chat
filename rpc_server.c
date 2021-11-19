@@ -6,6 +6,7 @@
 
 #include "rpc.h"
 #include <string.h>
+#include <strings.h>
 
 int *
 write_1_svc(message *argp, struct svc_req *rqstp)
