@@ -60,9 +60,9 @@ getchat_1_svc(int *client_revision, struct svc_req *rqstp)
 
 		fseek(f, 0L, SEEK_SET);
 		
-		printf("before the if\n");
+		printf("total revision %d\n", total_revision);
 
-		if(total_revision > *client_revision && total_revision > 0){
+		if(total_revision > *client_revision && total_revision > 1){
 
 			printf("I'm in side the if!\n");
 			int reading_size = total_revision - *client_revision > 900 ?  900 : (total_revision - *client_revision);
