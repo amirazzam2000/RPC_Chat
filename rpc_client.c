@@ -34,6 +34,7 @@ program_write_1(char *host)
 	int flags = fcntl(0, F_GETFL, 0);
 	fcntl(0, F_SETFL, flags | O_NONBLOCK);
 
+	printf("Welcome %s!", msg.name);
 	while(1)
 	{
 		//Get chat
