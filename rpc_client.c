@@ -41,9 +41,9 @@ program_write_1(char *host)
 		//Get chat
 		do
 		{
-			if(NULL != chat->block[0])
+			if(NULL != chat->block)
 				bzero(chat->block, 269);
-				
+
 			chat = getchat_1(&my_revision, clnt);
 			if (chat->block[0] != 0)
 				printf("%s", chat->block);
