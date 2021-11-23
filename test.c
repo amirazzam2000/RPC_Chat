@@ -94,7 +94,6 @@ int main()
 
     // Set up threads
     pthread_t threads[2];
-    void *status;
     pthread_attr_t attr;
     pthread_attr_init(&attr);
     pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
@@ -176,6 +175,7 @@ void *listener()
     int bufsize = maxx - 4;
     char *buffer = malloc(bufsize);
 
+    str[0] = 0;
     while (1)
     {
         bzero(buffer, bufsize);
