@@ -40,7 +40,8 @@ program_write_1(char *host)
 
 	initscr();
 	mvprintw(0, 0, "\n\n%s -->", msg.name);
-
+	refresh();
+	
 	while(1)
 	{
 		//Get chat
