@@ -1,3 +1,9 @@
+
+#include <pthread.h>
+#include <curses.h>
+#include <termios.h>
+#include <string.h>
+#include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
 
