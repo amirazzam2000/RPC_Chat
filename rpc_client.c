@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <ncurses.h>
 
 void
 program_write_1(char *host)
@@ -36,6 +37,10 @@ program_write_1(char *host)
 	fcntl(0, F_SETFL, flags | O_NONBLOCK);
 
 	printf("Welcome %s!\n", msg.name);
+
+	initscr();
+	mvprintw(0, 0, "\n\n%s -->", msg.name);
+
 	while(1)
 	{
 		//Get chat
@@ -45,8 +50,11 @@ program_write_1(char *host)
 				bzero(chat->block, 269);
 
 			chat = getchat_1(&my_revision, clnt);
-			if (chat->block[0] != 0)
-				printf("%s", chat->block);
+			if (chat->block[0] != 0){
+				mvprintw(2,0,"%s", chat->block);
+				refresh();
+			}
+
 
 			//printf("Reading\n");
 			my_revision = chat->revision_number;
@@ -86,6 +94,8 @@ program_write_1(char *host)
 		//Sleep
 		sleep(1);		
 	}
+
+	endwin();
 	
 #ifndef	DEBUG
 	clnt_destroy (clnt);
