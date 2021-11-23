@@ -14,6 +14,18 @@
 #include <ncurses.h>
 #include <sys/types.h>
 
+int done = 0;
+
+//char name[20];
+
+int sockfd;
+WINDOW *top;
+WINDOW *bottom;
+int line = 1;	// Line position of top
+int input = 1;	// Line position of top
+int maxx, maxy; // Screen dimensions
+pthread_mutex_t mutexsum = PTHREAD_MUTEX_INITIALIZER;
+
 void
 program_write_1(char *host)
 {
