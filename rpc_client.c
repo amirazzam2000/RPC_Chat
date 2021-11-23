@@ -38,10 +38,11 @@ program_write_1(char *host)
 
 	printf("Welcome %s!\n", msg.name);
 
+	endwin();
 	initscr();
 	mvprintw(0, 0, "\n\n%s -->", msg.name);
 	refresh();
-	
+
 	while(1)
 	{
 		//Get chat
