@@ -11,20 +11,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <ncurses.h>
-#include <sys/types.h>
 
-int done = 0;
-
-//char name[20];
-
-int sockfd;
-WINDOW *top;
-WINDOW *bottom;
-int line = 1;	// Line position of top
-int input = 1;	// Line position of top
-int maxx, maxy; // Screen dimensions
-pthread_mutex_t mutexsum = PTHREAD_MUTEX_INITIALIZER;
 
 void
 program_write_1(char *host)
@@ -50,57 +37,6 @@ program_write_1(char *host)
 	fcntl(0, F_SETFL, flags | O_NONBLOCK);
 
 	printf("Welcome %s!\n", msg.name);
-
-	/*initscr();
-
-	cbreak();			  // Immediate key input
-	nonl();				  // Get return key
-	timeout(0);			  // Non-blocking input
-	keypad(stdscr, 1);	  // Fix keypad
-	noecho();			  // No automatic printing
-	curs_set(0);		  // Hide real cursor
-	intrflush(stdscr, 0); // Avoid potential graphical issues
-	leaveok(stdscr, 1);	  // Don't care where cursor is left
-	
-	// FORK
-	 (fork() == 0){
-
-	}else{
-
-	}*/
-
-	// Set up windows
-	initscr();
-	getmaxyx(stdscr, maxy, maxx);
-
-	top = newwin(maxy / 2, maxx, 0, 0);
-	bottom = newwin(maxy / 2, maxx, maxy / 2, 0);
-
-	scrollok(top, TRUE);
-	scrollok(bottom, TRUE);
-	box(top, '|', '=');
-	box(bottom, '|', '-');
-
-	wsetscrreg(top, 1, maxy / 2 - 2);
-	wsetscrreg(bottom, 1, maxy / 2 - 2);
-
-	// Set up threads
-	pthread_t threads[2];
-	void *status;
-	pthread_attr_t attr;
-	pthread_attr_init(&attr);
-	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
-
-	// Spawn the listen/receive deamons
-	pthread_create(&threads[0], &attr, sendmessage, (void *)name);
-	pthread_create(&threads[1], &attr, listener, NULL);
-
-	// Keep alive until finish condition is done
-	while (!done);
-
-	mvprintw(0, 0, "\n\n%s -->", msg.name);
-	refresh();
-
 	while(1)
 	{
 		//Get chat
@@ -110,11 +46,8 @@ program_write_1(char *host)
 				bzero(chat->block, 269);
 
 			chat = getchat_1(&my_revision, clnt);
-			if (chat->block[0] != 0){
-				mvprintw(2,0,"%s", chat->block);
-				refresh();
-			}
-
+			if (chat->block[0] != 0)
+				printf("%s", chat->block);
 
 			//printf("Reading\n");
 			my_revision = chat->revision_number;
@@ -136,12 +69,7 @@ program_write_1(char *host)
 		//Read input
 		while (read(0, msg.message, sizeof(msg.message)) > 0)
 		{
-			
 			msg.message[strlen(msg.message) - 1] = 0;
-			if (strcmp(msg.message, "exit") == 0)
-			{
-				break;
-			}
 			result_1 = write_1(&msg, clnt);
 
 			bzero(msg.message, 269);
@@ -159,117 +87,12 @@ program_write_1(char *host)
 		//Sleep
 		sleep(1);		
 	}
-
-	endwin();
 	
 #ifndef	DEBUG
 	clnt_destroy (clnt);
 #endif	 /* DEBUG */
 }
 
-
-
-
-void *get_in_addr(struct sockaddr *sa)
-{
-	if (sa->sa_family == AF_INET)
-	{
-		return &(((struct sockaddr_in *)sa)->sin_addr);
-	}
-
-	return &(((struct sockaddr_in6 *)sa)->sin6_addr);
-}
-
-// Send message from keyboard to server and update screen
-void *sendmessage(void *name)
-{
-
-	char str[80];
-	char msg[100];
-	int bufsize = maxx - 4;
-	char *buffer = malloc(bufsize);
-
-	while (1)
-	{
-		bzero(str, 80);
-		bzero(msg, 100);
-		bzero(buffer, bufsize);
-		wrefresh(top);
-		wrefresh(bottom);
-
-		// Get user's message
-		mvwgetstr(bottom, input, 2, str);
-
-		// Build the message: "name: message"
-		strcpy(msg, name);
-		strncat(msg, ": \0", 100 - strlen(str));
-		strncat(msg, str, 100 - strlen(str));
-
-		// Check for quiting
-		if (strcmp(str, "exit") == 0)
-		{
-
-			done = 1;
-
-			// Clean up
-			endwin();
-			pthread_mutex_destroy(&mutexsum);
-			pthread_exit(NULL);
-			close(sockfd);
-		}
-
-		// Send message to server
-		write(sockfd, msg, strlen(msg));
-
-		// write it in chat window (top)
-		mvwprintw(top, line, 2, msg);
-
-		// scroll the top if the line number exceed height
-		pthread_mutex_lock(&mutexsum);
-
-		if (line != maxy / 2 - 2)
-			line++;
-		else
-			scroll(top);
-
-		// scroll the bottom if the line number exceed height
-		if (input != maxy / 2 - 2)
-			input++;
-		else
-			scroll(bottom);
-
-		pthread_mutex_unlock(&mutexsum);
-	}
-}
-
-// Listen for messages and display them
-void *listener()
-{
-	char str[80];
-	int bufsize = maxx - 4;
-	char *buffer = malloc(bufsize);
-
-	while (1)
-	{
-		bzero(buffer, bufsize);
-		wrefresh(top);
-		wrefresh(bottom);
-
-		//Receive message from server
-		read(sockfd, buffer, bufsize);
-
-		//Print on own terminal
-		mvwprintw(top, line, 3, buffer);
-
-		// scroll the top if the line number exceed height
-		pthread_mutex_lock(&mutexsum);
-		if (line != maxy / 2 - 2)
-			line++;
-		else
-			scroll(top);
-		pthread_mutex_unlock(&mutexsum);
-	}
-}
 
 int
 main (int argc, char *argv[])
