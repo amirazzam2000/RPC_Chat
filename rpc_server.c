@@ -64,7 +64,7 @@ getchat_1_svc(int *client_revision, struct svc_req *rqstp)
 
 			int reading_size = total_revision - *client_revision > 900 ?  900 : (total_revision - *client_revision);
 
-			if (NULL != chat->block)
+			if (NULL != chat.block)
 				bzero(chat.block, 269);
 
 			char *feof;
