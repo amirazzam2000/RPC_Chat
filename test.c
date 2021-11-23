@@ -171,11 +171,10 @@ void *sendmessage(void *name)
 // Listen for messages and display them
 void *listener()
 {
-    char str[80];
+    //char str[80];
     int bufsize = maxx - 4;
     char *buffer = malloc(bufsize);
 
-    str[0] = 0;
     while (1)
     {
         bzero(buffer, bufsize);
