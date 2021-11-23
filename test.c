@@ -3,13 +3,13 @@
 #include <curses.h>
 #include <termios.h>
 #include <string.h>
+#include <strings.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
 
 int done = 0;
 
-int sockfd;
 WINDOW *top;
 WINDOW *bottom;
 int line = 1;   // Line position of top
@@ -39,7 +39,7 @@ int main()
     tcsetattr(0, TCSANOW, &newt);
 
     char password[10];
-    char *in = password;
+    //char *in = password;
 
     char c;
     int i = 0;
@@ -116,6 +116,7 @@ void *sendmessage(void *name)
     int bufsize = maxx - 4;
     char *buffer = malloc(bufsize);
 
+    str[0] = 0;
     while (1)
     {
         bzero(str, 80);
