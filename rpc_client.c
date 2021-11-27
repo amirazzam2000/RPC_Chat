@@ -25,7 +25,7 @@ int input = 1;	// Line position of top
 int maxx, maxy; // Screen dimensions
 pthread_mutex_t mutexsum = PTHREAD_MUTEX_INITIALIZER;
 
-void readMessage()
+void readMessage(CLIENT *clnt)
 {
 	chat_block *chat;
 	static int my_revision = 0;
@@ -55,7 +55,7 @@ void readMessage()
 	} while (my_revision < chat->total_revisions);
 }
 
-void writeMessage(message msg)
+void writeMessage(message msg, CLIENT *clnt)
 {
 	int *result_1;
 	
@@ -116,8 +116,8 @@ program_write_1(char *host)
 	
 	while(1)
 	{
-		readMessage();
-		writeMessage(msg);
+		readMessage(clnt);
+		writeMessage(msg, clnt);
 		sleep(1);		
 	}
 	
