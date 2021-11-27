@@ -96,7 +96,15 @@ void  writeMessage()
 	ch = mvwgetch(bottom, 2, 2 + n_chars);
 	if (ch != ERR){
 		msg.message[n_chars++] = ch;
-		if(ch == '\n'){
+		if (ch == 8)
+		{	
+			mvwprintw(bottom, 2, 2 + (--n_chars), "\0");
+			msg.message[n_chars] = 0;
+			mvwprintw(bottom, 2, 2 + (--n_chars), "\0");
+			msg.message[n_chars] = 0;
+		}
+		if(ch == '\n')
+		{
 			//fflush(stdin);
 			if (strcmp(msg.message, "\\exit") == 0)
 			{
