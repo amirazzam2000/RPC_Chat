@@ -100,16 +100,17 @@ void * writeMessage(void *  message_aux)
 		}
 
 		msg.message[strlen(msg.message) - 1] = 0;
-		//result_1 = write_1(&msg, clnt);
-		
+		/*result_1 = write_1(&msg, clnt);
+		if (result_1 == (int *)NULL)
+		{
+			clnt_perror(clnt, "call failed");
+		}*/
+
 		bzero(msg.message, 269);
 		//printf("\nmessage sent!\n");
 		//my_revision += *result_1;
 
-		if (result_1 == (int *)NULL)
-		{
-			clnt_perror(clnt, "call failed");
-		}
+		
 	}
 	fflush(stdin);	
 	pthread_exit( NULL );
