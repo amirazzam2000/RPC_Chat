@@ -37,6 +37,7 @@ void readMessage()
 	{
 		if (NULL != chat->block)
 			bzero(chat->block, 269);
+		printf("Before Reading\n");
 
 		chat = getchat_1(&my_revision, clnt);
 		if (chat->block[0] != 0)
@@ -114,6 +115,13 @@ program_write_1(char *host)
     scrollok(bottom, TRUE);
     box(bottom, '|', '-');
 	*/
+	if (clnt == NULL)}
+	{
+		printf("Whops!\n");
+	}
+	else{
+		printf("not clnt!\n");
+	}
 	
 	while(1)
 	{
