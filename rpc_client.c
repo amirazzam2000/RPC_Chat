@@ -18,23 +18,22 @@
 
 int done = 0;
 
-WINDOW *top;
-WINDOW *bottom;
+WINDOW * top;
+WINDOW * bottom;
 int line = 1;	// Line position of top
 int input = 1;	// Line position of bottom
 int maxx, maxy; // Screen dimensions
 pthread_mutex_t mutexsum = PTHREAD_MUTEX_INITIALIZER;
 
 int my_revision = 0;
-CLIENT *clnt;
+CLIENT *clnt ;
 
-void *readMessage()
+void *  readMessage()
 {
 	chat_block *chat;
-
+	
 	//Get chat
-	while (!done)
-	{
+	while(!done){
 		do
 		{
 			chat = getchat_1(&my_revision, clnt);
@@ -83,52 +82,54 @@ void *readMessage()
 	pthread_exit(NULL);
 }
 
-void *writeMessage(void *message_aux)
+void * writeMessage(void *  message_aux)
 {
 	message msg = *(message *)message_aux;
 	int *result_1;
 	//Read input
-	while (read(0, msg.message, sizeof(msg.message)) > 0)
-	{
-		msg.message[strlen(msg.message) - 1] = 0;
-		result_1 = write_1(&msg, clnt);
-
-		bzero(msg.message, 269);
-		//printf("\nmessage sent!\n");
-		my_revision += *result_1;
-
-		if (result_1 == (int *)NULL)
+		while (read(0, msg.message, sizeof(msg.message)) > 0)
 		{
-			clnt_perror(clnt, "call failed");
+			msg.message[strlen(msg.message) - 1] = 0;
+			result_1 = write_1(&msg, clnt);
+
+			bzero(msg.message, 269);
+			//printf("\nmessage sent!\n");
+			my_revision += *result_1;
+
+			if (result_1 == (int *)NULL)
+			{
+				clnt_perror(clnt, "call failed");
+			}
 		}
-	}
-	fflush(stdin);
-	pthread_exit(NULL);
+		fflush(stdin);	
+		pthread_exit( NULL );
 }
 
-void program_write_1(char *host)
+
+
+void
+program_write_1(char *host)
 {
 	message msg;
 
-#ifndef DEBUG
+#ifndef	DEBUG
 	clnt = clnt_create(host, PROGRAM_WRITE, VERSION_WRITE, "udp");
-	if (clnt == NULL)
-	{
-		clnt_pcreateerror(host);
-		exit(1);
+	if (clnt == NULL) {
+		clnt_pcreateerror (host);
+		exit (1);
 	}
-#endif /* DEBUG */
+#endif	/* DEBUG */
 	printf("Enter your username: ");
 	fgets(msg.name, 10, stdin);
-	msg.name[strlen(msg.name) - 1] = 0;
+	msg.name[ strlen(msg.name) - 1 ] = 0;
 
 	int flags = fcntl(0, F_GETFL, 0);
 	fcntl(0, F_SETFL, flags | O_NONBLOCK);
 
 	printf("Welcome %s!\n", msg.name);
 
-	// insert ncurses code here :
-
+	// insert ncurses code here : 
+	
 	initscr();
 	getmaxyx(stdscr, maxy, maxx);
 
@@ -136,8 +137,10 @@ void program_write_1(char *host)
 	top = newwin((7 * maxy / 8), maxx, 0, 0);
 	bottom = newwin((maxy / 8), maxx, (7 * maxy / 8), 0);
 
-	scrollok(top, TRUE);
-	scrollok(bottom, TRUE);
+
+    scrollok(top, TRUE);
+    scrollok(bottom, TRUE);
+
 
 	box(top, '*', '=');
 	box(bottom, '|', '-');
@@ -148,10 +151,9 @@ void program_write_1(char *host)
 	pthread_t threads[2];
 	// Spawn the listen/receive deamons
 	pthread_create(&threads[0], NULL, readMessage, NULL);
-	pthread_create(&threads[1], NULL, writeMessage, (void *)&msg);
+	pthread_create(&threads[1], NULL, writeMessage, (void *) &msg);
 
-	while (1)
-	{
+	while(1){
 		wrefresh(top);
 		wrefresh(bottom);
 	}
@@ -161,22 +163,23 @@ void program_write_1(char *host)
 		writeMessage(msg);
 		sleep(1);		
 	}*/
-
-#ifndef DEBUG
-	clnt_destroy(clnt);
-#endif /* DEBUG */
+	
+#ifndef	DEBUG
+	clnt_destroy (clnt);
+#endif	 /* DEBUG */
 }
 
-int main(int argc, char *argv[])
+
+int
+main (int argc, char *argv[])
 {
 	char *host;
 
-	if (argc < 2)
-	{
-		printf("usage: %s server_host\n", argv[0]);
-		exit(1);
+	if (argc < 2) {
+		printf ("usage: %s server_host\n", argv[0]);
+		exit (1);
 	}
 	host = argv[1];
-	program_write_1(host);
-	exit(0);
+	program_write_1 (host);
+exit (0);
 }
