@@ -98,9 +98,9 @@ void  writeMessage()
 		msg.message[n_chars++] = ch;
 			
 		if (ch == 8 || ch == '^' || ch == 127){
-			mvwprintw(bottom, 2, 2 + (--n_chars), "\0");
+			mvwprintw(bottom, 2, 2 + (--n_chars), " ");
 			msg.message[n_chars] = 0;
-			mvwprintw(bottom, 2, 2 + (--n_chars), "\0");
+			mvwprintw(bottom, 2, 2 + (--n_chars), " ");
 			msg.message[n_chars] = 0;
 		}
 		else 
