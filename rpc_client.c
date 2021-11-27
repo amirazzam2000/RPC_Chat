@@ -73,21 +73,18 @@ void  writeMessage()
 	int *result_1;
 	int ch = 0;
 	ch = mvwgetch(bottom, 2, 2 + n_chars);
-	if (ch == KEY_UP){
-		scroll(top);
-	}
-	else if (ch == KEY_DOWN)
-	{
-		wscrl(top, -1);
-	}
-	else if (ch != ERR){
-		msg.message[n_chars++] = ch;
+	if (ch != ERR){
+		if (n_chars < 269)
+			msg.message[n_chars++] = ch;
 			
 		if (ch == 8 || ch == '^' || ch == 127){
 			mvwprintw(bottom, 2, 2 + (--n_chars), " ");
 			msg.message[n_chars] = 0;
-			mvwprintw(bottom, 2, 2 + (--n_chars), " ");
-			msg.message[n_chars] = 0;
+
+			if (n_chars != 0){
+				mvwprintw(bottom, 2, 2 + (--n_chars), " ");
+				msg.message[n_chars] = 0;
+			}
 		}
 		else 
 		{
@@ -149,15 +146,11 @@ program_write_1(char *host)
 	initscr();
 	getmaxyx(stdscr, maxy, maxx);
 	noecho();
-	keypad(stdscr, TRUE);
-
 
 	top = newwin((7 * maxy / 8), maxx, 0, 0);
 	bottom = newwin((maxy / 8), maxx, (7 * maxy / 8), 0);
 
-	keypad(bottom, TRUE);
-	
-	scrollok(top, TRUE);
+    scrollok(top, TRUE);
     scrollok(bottom, TRUE);
 
 	box(bottom, '|', '-');
