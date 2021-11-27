@@ -92,29 +92,33 @@ void * writeMessage()
 	{
 		bzero(msg.message, 269);
 		mvwgetstr(bottom, input, 2, msg.message);
-		
-		if (strcmp(msg.message, "\\exit") == 0)
-		{
-			done = 1;
-			endwin();
-			pthread_exit(NULL);
-		}
+		if (msg.message[0] != 0){
+			
+			fflush(stdin);
+			if (strcmp(msg.message, "\\exit") == 0)
+			{
+				done = 1;
+				endwin();
+				pthread_exit(NULL);
+			}
 
-		msg.message[strlen(msg.message) - 1] = 0;
-		result_1 = write_1(&msg, clnt);
-		if (result_1 == (int *)NULL)
-		{
-			printf("can't write!\n");
-			clnt_perror(clnt, "call failed");
-		}
+			msg.message[strlen(msg.message) - 1] = 0;
+			result_1 = write_1(&msg, clnt);
+			if (result_1 == (int *)NULL)
+			{
+				printf("can't write!\n");
+				clnt_perror(clnt, "call failed");
+			}
 
-		bzero(msg.message, 269);
-		//printf("\nmessage sent!\n");
-		my_revision += *result_1;
+			bzero(msg.message, 269);
+			//printf("\nmessage sent!\n");
+			my_revision += *result_1;
+
+		}
 
 		
 	}
-	fflush(stdin);	
+	
 	pthread_exit( NULL );
 }
 
