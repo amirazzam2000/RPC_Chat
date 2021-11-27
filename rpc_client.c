@@ -92,6 +92,7 @@ void * writeMessage()
 	{
 		bzero(msg.message, 269);
 		//mvwgetstr(bottom, input, 2, msg.message);
+		noecho();
 		getstr(msg.message);
 		if (msg.message[0] != 0){
 			//printf("got string |%s|\n", msg.message);
