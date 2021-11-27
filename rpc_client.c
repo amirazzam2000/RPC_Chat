@@ -44,6 +44,7 @@ void *  readMessage()
 			chat = getchat_1(&my_revision, clnt);
 			if (chat == (chat_block *)NULL)
 			{
+				printf("can't read!\n");
 				clnt_perror(clnt, "call failed");
 			}
 
@@ -95,6 +96,7 @@ void * writeMessage()
 	{
 		bzero(msg.message, 269);
 		mvwgetstr(bottom, input, 2, msg.message);
+		
 		if (strcmp(msg.message, "\\exit") == 0)
 		{
 			done = 1;
@@ -106,6 +108,7 @@ void * writeMessage()
 		result_1 = write_1(&msg, clnt);
 		if (result_1 == (int *)NULL)
 		{
+			printf("can't write!\n");
 			clnt_perror(clnt, "call failed");
 		}
 
