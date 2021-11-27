@@ -36,6 +36,10 @@ void *  readMessage()
 	while(!done){
 		do
 		{
+
+			wrefresh(top);
+			wrefresh(bottom);
+			
 			chat = getchat_1(&my_revision, clnt);
 			if (chat == (chat_block *)NULL)
 			{
@@ -163,9 +167,7 @@ program_write_1(char *host)
 	pthread_create(&threads[0], NULL, readMessage, NULL);
 	pthread_create(&threads[1], NULL, writeMessage, (void *) &msg);
 
-	while(1){
-		wrefresh(top);
-		wrefresh(bottom);
+	while(!done){
 	}
 	/*while(1)
 	{
