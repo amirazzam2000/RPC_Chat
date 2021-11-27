@@ -78,8 +78,11 @@ void  writeMessage()
 	if (ch != ERR ){
 		if (n_chars < 269)
 			msg.message[n_chars++] = ch;
-			
-		if (ch == 8 || ch == '^' || ch == 127){
+		
+		n_chars_per_line++;
+
+			if (ch == 8 || ch == '^' || ch == 127)
+		{
 			mvwprintw(bottom, bottom_line, 2 + (--n_chars), " ");
 			n_chars_per_line--;
 			msg.message[n_chars] = 0;
@@ -104,7 +107,7 @@ void  writeMessage()
 		}
 		if(ch == '\n')
 		{
-			if (strcmp(msg.message, "\\exit") == 0)
+			if (strcmp(msg.message, "\\exit\n") == 0)
 			{
 				done = 1;
 				endwin();
