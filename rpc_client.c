@@ -55,7 +55,7 @@ void *  readMessage()
 		}*/
 
 	} while (my_revision < chat->total_revisions);
-	
+	pthread_exit(NULL);
 }
 
 void * writeMessage(void *  message_aux)
