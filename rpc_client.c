@@ -33,55 +33,52 @@ void *  readMessage()
 	chat_block *chat;
 	
 	//Get chat
-	do
-	{
-		chat = getchat_1(&my_revision, clnt);
-		if (chat == (chat_block *)NULL)
+	while(!done){
+		do
 		{
-			clnt_perror(clnt, "call failed");
-		}
-
-		
-		
+			chat = getchat_1(&my_revision, clnt);
+			if (chat == (chat_block *)NULL)
+			{
+				clnt_perror(clnt, "call failed");
+			}
 
 			//int mvwprintw(WINDOW *win, int y, int x, const char *fmt, ...);
 
-		if (chat->block[0] != 0){
-			int n = 0;
-			for (int i = 0; i < strlen(chat->block); i++)
+			if (chat->block[0] != 0)
 			{
-				if (chat->block[i] == '\n')
+				int n = 0;
+				for (int i = 0; i < strlen(chat->block); i++)
 				{
-					if (line != maxy / 2 - 2)
-						line++;
-					else
-						scroll(top);
+					if (chat->block[i] == '\n')
+					{
+						if (line != maxy / 2 - 2)
+							line++;
+						else
+							scroll(top);
 
-					n = 0;
-				}else{
-					mvwprintw(top, line, 2 + n, "%c", chat->block[i]);
-					n++;
+						n = 0;
+					}
+					else
+					{
+						mvwprintw(top, line, 2 + n, "%c", chat->block[i]);
+						n++;
+					}
 				}
-				
+
+				//printf("%s", chat->block);
+
+				//printf("Reading\n");
+				my_revision = chat->revision_number;
 			}
 
-			
-			//printf("%s", chat->block);
-
-			
-
-			//printf("Reading\n");
-			my_revision = chat->revision_number;
-		}
-
-
-		/*
+			/*
 		if (my_revision >= chat->total_revisions)
 		{
 			printf("No new messages!\n");
 		}*/
 
-	} while (my_revision < chat->total_revisions);
+		} while (my_revision < chat->total_revisions);
+	}
 	pthread_exit(NULL);
 }
 
