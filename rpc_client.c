@@ -32,13 +32,13 @@ void readMessage()
 {
 	chat_block *chat;
 
+	bzero(chat->block, 269);
+
+	
 	printf("Starting!\n");
 	//Get chat
 	do
 	{
-		//if (NULL != chat->block)
-			//bzero(chat->block, 269);
-
 		chat = getchat_1(&my_revision, clnt);
 		if (chat == (chat_block *)NULL)
 		{
