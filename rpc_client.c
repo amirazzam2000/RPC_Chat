@@ -91,9 +91,9 @@ void * writeMessage()
 	while (!done)
 	{
 		bzero(msg.message, 269);
-		//mvwgetstr(bottom, input, 2, msg.message);
-		noecho();
-		getstr(msg.message);
+		
+		mvwgetstr(bottom, input, 2, msg.message);
+		
 		if (msg.message[0] != 0){
 			//printf("got string |%s|\n", msg.message);
 			fflush(stdin);
@@ -151,6 +151,7 @@ program_write_1(char *host)
 	
 	initscr();
 	getmaxyx(stdscr, maxy, maxx);
+	noecho();
 
 	//WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x);
 	top = newwin((7 * maxy / 8), maxx, 0, 0);
