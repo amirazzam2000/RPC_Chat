@@ -27,6 +27,7 @@ pthread_mutex_t mutexsum = PTHREAD_MUTEX_INITIALIZER;
 
 int my_revision = 0;
 CLIENT *clnt ;
+message msg;
 
 void *  readMessage()
 {
@@ -86,9 +87,8 @@ void *  readMessage()
 	pthread_exit(NULL);
 }
 
-void * writeMessage(void *  message_aux)
+void * writeMessage()
 {
-	message msg = *(message *)message_aux;
 	int *result_1;
 	//Read input
 	while (!done)
@@ -124,7 +124,7 @@ void * writeMessage(void *  message_aux)
 void
 program_write_1(char *host)
 {
-	message msg;
+	
 
 #ifndef	DEBUG
 	clnt = clnt_create(host, PROGRAM_WRITE, VERSION_WRITE, "udp");
@@ -165,7 +165,7 @@ program_write_1(char *host)
 	pthread_t threads[2];
 	// Spawn the listen/receive deamons
 	pthread_create(&threads[0], NULL, readMessage, NULL);
-	pthread_create(&threads[1], NULL, writeMessage, (void *) &msg);
+	pthread_create(&threads[1], NULL, writeMessage, NULL);
 
 	while(!done){
 	}
