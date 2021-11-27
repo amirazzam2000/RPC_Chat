@@ -104,7 +104,7 @@ void * writeMessage(void *  message_aux)
 		
 		bzero(msg.message, 269);
 		//printf("\nmessage sent!\n");
-		my_revision += *result_1;
+		//my_revision += *result_1;
 
 		if (result_1 == (int *)NULL)
 		{
