@@ -151,10 +151,13 @@ program_write_1(char *host)
 	noecho();
 	keypad(stdscr, TRUE);
 
+
 	top = newwin((7 * maxy / 8), maxx, 0, 0);
 	bottom = newwin((maxy / 8), maxx, (7 * maxy / 8), 0);
 
-    scrollok(top, TRUE);
+	keypad(bottom, TRUE);
+	
+	scrollok(top, TRUE);
     scrollok(bottom, TRUE);
 
 	box(bottom, '|', '-');
