@@ -21,7 +21,6 @@ int done = 0;
 WINDOW * top;
 WINDOW * bottom;
 int line = 1;	// Line position of top
-int input = 1;	// Line position of bottom
 int maxx, maxy; // Screen dimensions
 pthread_mutex_t mutexsum = PTHREAD_MUTEX_INITIALIZER;
 
@@ -94,7 +93,7 @@ void  writeMessage()
 	
 	int ch = 0;
 	//err = mvwgetstr(bottom, input, 2, msg.message);
-	ch = mvwgetch(bottom, input, 2 + n_chars);
+	ch = mvwgetch(bottom, 2, 2 + n_chars);
 	if (ch != ERR){
 		msg.message[n_chars++] = ch;
 		if(ch == '\n'){
@@ -122,6 +121,7 @@ void  writeMessage()
 			bzero(msg.message, 269);
 			wclear(bottom);
 			box(bottom, '|', '-');
+			mvwprintw(bottom, 1, 2 , "[%s]", msg.name);
 		}
 	}
 
@@ -166,8 +166,9 @@ program_write_1(char *host)
     scrollok(bottom, TRUE);
 
 
-	box(top, '*', '=');
+	//box(top, '*', '=');
 	box(bottom, '|', '-');
+	mvwprintw(bottom, 1, 2, "[%s]", msg.name);
 
 	//wsetscrreg(top, 1, (7 * maxy / 8) - 2);
 	//wsetscrreg(bottom, 1, (maxy / 8) - 2);
