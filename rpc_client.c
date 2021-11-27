@@ -148,7 +148,6 @@ program_write_1(char *host)
 	initscr();
 	getmaxyx(stdscr, maxy, maxx);
 	echo();
-	raw();
 
 	//WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x);
 	top = newwin((7 * maxy / 8), maxx, 0, 0);
