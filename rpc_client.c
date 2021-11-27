@@ -87,22 +87,30 @@ void * writeMessage(void *  message_aux)
 	message msg = *(message *)message_aux;
 	int *result_1;
 	//Read input
-		while (read(0, msg.message, sizeof(msg.message)) > 0)
+	while (!done)
+	{
+		mvwgetstr(bottom, input, 2, msg.message);
+		if (strcmp(msg.message, "\\exit") == 0)
 		{
-			msg.message[strlen(msg.message) - 1] = 0;
-			result_1 = write_1(&msg, clnt);
-
-			bzero(msg.message, 269);
-			//printf("\nmessage sent!\n");
-			my_revision += *result_1;
-
-			if (result_1 == (int *)NULL)
-			{
-				clnt_perror(clnt, "call failed");
-			}
+			done = 1;
+			endwin();
+			pthread_exit(NULL);
 		}
-		fflush(stdin);	
-		pthread_exit( NULL );
+
+		msg.message[strlen(msg.message) - 1] = 0;
+		result_1 = write_1(&msg, clnt);
+		
+		bzero(msg.message, 269);
+		//printf("\nmessage sent!\n");
+		my_revision += *result_1;
+
+		if (result_1 == (int *)NULL)
+		{
+			clnt_perror(clnt, "call failed");
+		}
+	}
+	fflush(stdin);	
+	pthread_exit( NULL );
 }
 
 
