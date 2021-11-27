@@ -111,7 +111,7 @@ program_write_1(char *host)
 
     scrollok(top, TRUE);
     scrollok(bottom, TRUE);
-	box(top, '||', '=');
+	box(top, '*', '=');
 	box(bottom, '|', '-');
 
 	wsetscrreg(top, 1, maxy / 2 - 2);
