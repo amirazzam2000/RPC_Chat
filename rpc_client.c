@@ -171,7 +171,8 @@ program_write_1(char *host)
 	//pthread_create(&threads[0], NULL, readMessage, NULL);
 	//pthread_create(&threads[1], NULL, writeMessage, NULL);
 
-	while(!done){
+	done = 1;
+	while(1){
 		wrefresh(top);
 		wrefresh(bottom);
 		readMessage();
