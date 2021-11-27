@@ -36,8 +36,8 @@ void readMessage()
 	//Get chat
 	do
 	{
-		if (NULL != chat->block)
-			bzero(chat->block, 269);
+		//if (NULL != chat->block)
+			//bzero(chat->block, 269);
 
 		chat = getchat_1(&my_revision, clnt);
 		if (chat == (chat_block *)NULL)
