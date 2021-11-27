@@ -116,7 +116,10 @@ program_write_1(char *host)
 	wsetscrreg(top, 1, maxy / 2 - 2);
 	wsetscrreg(bottom, 1, maxy / 2 - 2);
 
-	while(1);
+	while(1){
+		wrefresh(top);
+		wrefresh(bottom);
+	}
 	/*while(1)
 	{
 		readMessage();
