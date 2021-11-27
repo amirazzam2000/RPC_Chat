@@ -37,10 +37,6 @@ void *  readMessage()
 	while(!done){
 		do
 		{
-
-			wrefresh(top);
-			wrefresh(bottom);
-
 			chat = getchat_1(&my_revision, clnt);
 			if (chat == (chat_block *)NULL)
 			{
@@ -150,6 +146,9 @@ program_write_1(char *host)
 	initscr();
 	getmaxyx(stdscr, maxy, maxx);
 
+	raw();
+	echo();
+
 	//WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x);
 	top = newwin((7 * maxy / 8), maxx, 0, 0);
 	bottom = newwin((maxy / 8), maxx, (7 * maxy / 8), 0);
@@ -171,6 +170,8 @@ program_write_1(char *host)
 	pthread_create(&threads[1], NULL, writeMessage, NULL);
 
 	while(!done){
+		wrefresh(top);
+		wrefresh(bottom);
 	}
 	/*while(1)
 	{
