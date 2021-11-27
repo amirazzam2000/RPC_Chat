@@ -31,7 +31,8 @@ CLIENT *clnt ;
 void readMessage()
 {
 	chat_block *chat;
-	
+
+	printf("Starting!\n");
 	//Get chat
 	do
 	{
