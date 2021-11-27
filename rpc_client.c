@@ -121,6 +121,7 @@ void  writeMessage()
 			n_chars=0;
 			bzero(msg.message, 269);
 			wclear(bottom);
+			box(bottom, '|', '-');
 		}
 	}
 
