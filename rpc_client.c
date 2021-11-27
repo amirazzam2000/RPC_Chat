@@ -106,16 +106,20 @@ program_write_1(char *host)
 	initscr();
 	getmaxyx(stdscr, maxy, maxx);
 
+	//WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x);
 	top = newwin((7 * maxy / 8), maxx, 0, 0);
 	bottom = newwin((maxy / 8), maxx, (7 * maxy / 8), 0);
-	//WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x);
+
+
     scrollok(top, TRUE);
     scrollok(bottom, TRUE);
+
+
 	box(top, '*', '=');
 	box(bottom, '|', '-');
 
-	wsetscrreg(top, 1, maxy / 2 - 2);
-	wsetscrreg(bottom, 1, maxy / 2 - 2);
+	//wsetscrreg(top, 1, (7 * maxy / 8) - 2);
+	//wsetscrreg(bottom, 1, (maxy / 8) - 2);
 
 	while(1){
 		wrefresh(top);
