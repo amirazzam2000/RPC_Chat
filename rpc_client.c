@@ -106,13 +106,16 @@ program_write_1(char *host)
 	initscr();
 	getmaxyx(stdscr, maxy, maxx);
 
-	top = newwin(maxy / 4, maxx, 0, 0);
-    bottom = newwin(maxy / 4, maxx, maxy / 4, 0);
+	top = newwin(maxy / 2, maxx, 0, 0);
+    bottom = newwin(maxy / 2, maxx, maxy / 4, 0);
 
     scrollok(top, TRUE);
     scrollok(bottom, TRUE);
     box(bottom, '|', '-');
-	
+
+	wsetscrreg(top, 1, maxy / 2 - 2);
+	wsetscrreg(bottom, 1, maxy / 2 - 2);
+
 	while(1)
 	{
 		readMessage();
