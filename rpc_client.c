@@ -29,7 +29,7 @@ int my_revision = 0;
 CLIENT *clnt ;
 message msg;
 
-void *  readMessage()
+void   readMessage()
 {
 	chat_block *chat;
 	
@@ -81,10 +81,10 @@ void *  readMessage()
 
 		} while (my_revision < chat->total_revisions);
 	}
-	pthread_exit(NULL);
+	//pthread_exit(NULL);
 }
 
-void * writeMessage()
+void  writeMessage()
 {
 	//int *result_1;
 	//Read input
@@ -119,7 +119,7 @@ void * writeMessage()
 		
 	}
 	
-	pthread_exit( NULL );
+	//pthread_exit( NULL );
 }
 
 
