@@ -105,6 +105,7 @@ void  writeMessage()
 				if (bottom_line > (maxy / 8) - 3){
 					scroll(bottom);
 					bottom_line--;
+					box(bottom, '|', '-');
 				}
 			}
 		}
