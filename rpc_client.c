@@ -37,9 +37,14 @@ void readMessage()
 	{
 		if (NULL != chat->block)
 			bzero(chat->block, 269);
-		printf("Before Reading\n");
 
 		chat = getchat_1(&my_revision, clnt);
+		if (chat == (chat_block *)NULL)
+		{
+			clnt_perror(clnt, "call failed");
+		}
+
+
 		if (chat->block[0] != 0)
 			printf("%s", chat->block);
 
@@ -49,11 +54,6 @@ void readMessage()
 		if (my_revision >= chat->total_revisions)
 		{
 			printf("No new messages!\n");
-		}
-
-		if (chat == (chat_block *)NULL)
-		{
-			clnt_perror(clnt, "call failed");
 		}
 
 	} while (my_revision < chat->total_revisions);
@@ -115,14 +115,6 @@ program_write_1(char *host)
     scrollok(bottom, TRUE);
     box(bottom, '|', '-');
 	*/
-	if (clnt == NULL)
-	{
-		printf("Whops!\n");
-	}
-	else{
-		printf("not clnt!\n");
-	}
-	
 	while(1)
 	{
 		readMessage();
