@@ -121,7 +121,7 @@ void  writeMessage()
 			bzero(msg.message, 269);
 			wclear(bottom);
 			box(bottom, '|', '-');
-			mvwprintw(bottom, 1, 2 , "[%s]", msg.name);
+			mvwprintw(bottom, 1, 2, "[%s]  -->", msg.name);
 		}
 	}
 
@@ -168,7 +168,7 @@ program_write_1(char *host)
 
 	//box(top, '*', '=');
 	box(bottom, '|', '-');
-	mvwprintw(bottom, 1, 2, "[%s]", msg.name);
+	mvwprintw(bottom, 1, 2, "[%s] -->", msg.name);
 
 	//wsetscrreg(top, 1, (7 * maxy / 8) - 2);
 	//wsetscrreg(bottom, 1, (maxy / 8) - 2);
