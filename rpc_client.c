@@ -107,7 +107,7 @@ program_write_1(char *host)
 	getmaxyx(stdscr, maxy, maxx);
 
 	top = newwin( maxy / 2, maxx, 0, 0);
-    bottom = newwin(maxy / 2, maxx, maxy / 8 , 0);
+    bottom = newwin(maxy / 2, maxx, (7 * maxy / 8) , 0);
 	//WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x);
     scrollok(top, TRUE);
     scrollok(bottom, TRUE);
