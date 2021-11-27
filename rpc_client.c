@@ -85,7 +85,7 @@ void *  readMessage()
 void * writeMessage(void *  message_aux)
 {
 	message msg = *(message *)message_aux;
-	int *result_1;
+	// int *result_1;
 	//Read input
 	while (!done)
 	{
