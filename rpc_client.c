@@ -91,14 +91,10 @@ void * writeMessage()
 	while (!done)
 	{
 		bzero(msg.message, 269);
-
-		wrefresh(top);
-		wrefresh(bottom);
 		mvwgetstr(bottom, input, 2, msg.message);
 		
 		if (msg.message[0] != 0){
-			printf("got string |%s|\n", msg.message);
-			fflush(stdin);
+			//fflush(stdin);
 			if (strcmp(msg.message, "\\exit") == 0)
 			{
 				done = 1;
@@ -172,12 +168,14 @@ program_write_1(char *host)
 
 	pthread_t threads[2];
 	// Spawn the listen/receive deamons
-	pthread_create(&threads[0], NULL, readMessage, NULL);
-	pthread_create(&threads[1], NULL, writeMessage, NULL);
+	//pthread_create(&threads[0], NULL, readMessage, NULL);
+	//pthread_create(&threads[1], NULL, writeMessage, NULL);
 
 	while(!done){
 		wrefresh(top);
 		wrefresh(bottom);
+		readMessage();
+		writeMessage();
 	}
 	/*while(1)
 	{
