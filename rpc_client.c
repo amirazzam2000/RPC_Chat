@@ -162,8 +162,8 @@ program_write_1(char *host)
 	box(top, '*', '=');
 	box(bottom, '|', '-');
 
-	//wsetscrreg(top, 1, (7 * maxy / 8) - 2);
-	//wsetscrreg(bottom, 1, (maxy / 8) - 2);
+	wsetscrreg(top, 1, (7 * maxy / 8) - 2);
+	wsetscrreg(bottom, 1, (maxy / 8) - 2);
 
 	pthread_t threads[2];
 	// Spawn the listen/receive deamons
