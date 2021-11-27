@@ -28,6 +28,7 @@ int my_revision = 0;
 CLIENT *clnt ;
 message msg;
 int n_chars = 0;
+int n_chars_per_line = 0;
 
 void readMessage() 
 {
@@ -73,34 +74,36 @@ void  writeMessage()
 {
 	int *result_1;
 	int ch = 0;
-	ch = mvwgetch(bottom, 2, 2 + n_chars);
+	ch = mvwgetch(bottom, bottom_line, 2 + n_chars_per_line);
 	if (ch != ERR ){
 		if (n_chars < 269)
 			msg.message[n_chars++] = ch;
 			
 		if (ch == 8 || ch == '^' || ch == 127){
 			mvwprintw(bottom, bottom_line, 2 + (--n_chars), " ");
+			n_chars_per_line--;
 			msg.message[n_chars] = 0;
 
 			if (n_chars != 0){
 				mvwprintw(bottom, bottom_line, 2 + (--n_chars), " ");
+				n_chars_per_line--;
 				msg.message[n_chars] = 0;
 			}
 		}
 		else 
 		{
-			mvwprintw(bottom, bottom_line, 1 + (n_chars), "%c", ch );
+			mvwprintw(bottom, bottom_line, 1 + (n_chars_per_line), "%c", ch);
 
 			if (n_chars >= maxx - 4){
 				bottom_line++;
-				if (bottom_line >= (maxy / 8) - 1){
+				n_chars_per_line = 0;
+				if (bottom_line > (maxy / 8) - 1){
 					scroll(bottom);
 				}
 			}
 		}
 		if(ch == '\n')
 		{
-			bottom_line = 2;
 			if (strcmp(msg.message, "\\exit") == 0)
 			{
 				done = 1;
@@ -118,7 +121,9 @@ void  writeMessage()
 
 			bzero(msg.message, 269);
 			n_chars=0;
-			bzero(msg.message, 269);
+			bottom_line = 2;
+			n_chars_per_line = 0;
+
 			wclear(bottom);
 			box(bottom, '|', '-');
 			mvwprintw(bottom, 1, 2, "[%s]  -->", msg.name);
@@ -164,7 +169,7 @@ program_write_1(char *host)
 	box(bottom, '|', '-');
 	mvwprintw(bottom, 1, 2, "[%s] -->", msg.name);
 
-	while(1){
+	while(!done){
 		wrefresh(top);
 		wrefresh(bottom);
 		readMessage();
