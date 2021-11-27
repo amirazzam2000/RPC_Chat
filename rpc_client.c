@@ -20,7 +20,8 @@ int done = 0;
 
 WINDOW * top;
 WINDOW * bottom;
-int line = 1;	
+int line = 1;
+int bottom_line = 2;
 int maxx, maxy; 
 
 int my_revision = 0;
@@ -47,7 +48,7 @@ void readMessage()
 			{
 				if (chat->block[i] == '\n')
 				{
-					if (line != maxy / 2 - 2)
+					if (line != (7 * maxy / 8))
 						line++;
 					else
 						scroll(top);
@@ -73,26 +74,33 @@ void  writeMessage()
 	int *result_1;
 	int ch = 0;
 	ch = mvwgetch(bottom, 2, 2 + n_chars);
-	if (ch != ERR){
+	if (ch != ERR ){
 		if (n_chars < 269)
 			msg.message[n_chars++] = ch;
 			
 		if (ch == 8 || ch == '^' || ch == 127){
-			mvwprintw(bottom, 2, 2 + (--n_chars), " ");
+			mvwprintw(bottom, bottom_line, 2 + (--n_chars), " ");
 			msg.message[n_chars] = 0;
 
 			if (n_chars != 0){
-				mvwprintw(bottom, 2, 2 + (--n_chars), " ");
+				mvwprintw(bottom, bottom_line, 2 + (--n_chars), " ");
 				msg.message[n_chars] = 0;
 			}
 		}
 		else 
 		{
-			mvwprintw(bottom, 2, 1 + (n_chars), "%c", ch );
+			mvwprintw(bottom, bottom_line, 1 + (n_chars), "%c", ch );
+
+			if (n_chars >= maxx - 4){
+				bottom_line++;
+				if (bottom_line >= (maxy / 8) - 1){
+					scroll(bottom);
+				}
+			}
 		}
 		if(ch == '\n')
 		{
-
+			bottom_line = 2;
 			if (strcmp(msg.message, "\\exit") == 0)
 			{
 				done = 1;
