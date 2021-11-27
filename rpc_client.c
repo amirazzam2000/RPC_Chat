@@ -53,7 +53,7 @@ void *  readMessage()
 				if (chat->block[i] == '\n')
 				{
 					if (line != maxy / 2 - 2)
-						line += count_n;
+						line++;
 					else
 						scroll(top);
 
