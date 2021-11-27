@@ -103,6 +103,7 @@ program_write_1(char *host)
 	printf("Welcome %s!\n", msg.name);
 
 	// insert ncurses code here : 
+	/*
 	initscr();
 	getmaxyx(stdscr, maxy, maxx);
 
@@ -112,13 +113,14 @@ program_write_1(char *host)
     scrollok(top, TRUE);
     scrollok(bottom, TRUE);
     box(bottom, '|', '-');
+	*/
 	
 	while(1)
 	{
 		readMessage(clnt);
 		writeMessage(msg, clnt);
 		sleep(1);		
-	}
+	}*/
 	
 #ifndef	DEBUG
 	clnt_destroy (clnt);
