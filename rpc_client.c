@@ -55,6 +55,7 @@ void *  readMessage()
 		}*/
 
 	} while (my_revision < chat->total_revisions);
+	 pthread_exit( NULL );
 }
 
 void * writeMessage(void *  message_aux)
@@ -77,6 +78,7 @@ void * writeMessage(void *  message_aux)
 			}
 		}
 		fflush(stdin);	
+		pthread_exit( NULL );
 }
 
 
@@ -84,7 +86,7 @@ void * writeMessage(void *  message_aux)
 void
 program_write_1(char *host)
 {
-	message msg;
+	message * msg;
 
 #ifndef	DEBUG
 	clnt = clnt_create(host, PROGRAM_WRITE, VERSION_WRITE, "udp");
@@ -94,13 +96,13 @@ program_write_1(char *host)
 	}
 #endif	/* DEBUG */
 	printf("Enter your username: ");
-	fgets(msg.name, 10, stdin);
-	msg.name[ strlen(msg.name) - 1 ] = 0;
+	fgets(msg->name, 10, stdin);
+	msg->name[ strlen(msg->name) - 1 ] = 0;
 
 	int flags = fcntl(0, F_GETFL, 0);
 	fcntl(0, F_SETFL, flags | O_NONBLOCK);
 
-	printf("Welcome %s!\n", msg.name);
+	printf("Welcome %s!\n", msg->name);
 
 	// insert ncurses code here : 
 	
