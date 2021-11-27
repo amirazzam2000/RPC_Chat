@@ -115,7 +115,7 @@ program_write_1(char *host)
     scrollok(bottom, TRUE);
     box(bottom, '|', '-');
 	*/
-	if (clnt == NULL)}
+	if (clnt == NULL)
 	{
 		printf("Whops!\n");
 	}
