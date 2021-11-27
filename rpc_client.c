@@ -42,12 +42,12 @@ void readMessage()
 		if (chat->block[0] != 0)
 			printf("%s", chat->block);
 
-		//printf("Reading\n");
+		printf("Reading\n");
 		my_revision = chat->revision_number;
 
 		if (my_revision >= chat->total_revisions)
 		{
-			//printf("No new messages!\n");
+			printf("No new messages!\n");
 		}
 
 		if (chat == (chat_block *)NULL)
