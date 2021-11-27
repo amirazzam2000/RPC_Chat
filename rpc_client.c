@@ -89,12 +89,12 @@ void *  readMessage()
 void * writeMessage(void *  message_aux)
 {
 	message msg = *(message *)message_aux;
-	// int *result_1;
+	int *result_1;
 	//Read input
 	while (!done)
 	{
 		bzero(msg.message, 269);
-		//mvwgetstr(bottom, input, 2, msg.message);
+		mvwgetstr(bottom, input, 2, msg.message);
 		if (strcmp(msg.message, "\\exit") == 0)
 		{
 			done = 1;
@@ -103,15 +103,15 @@ void * writeMessage(void *  message_aux)
 		}
 
 		msg.message[strlen(msg.message) - 1] = 0;
-		/*result_1 = write_1(&msg, clnt);
+		result_1 = write_1(&msg, clnt);
 		if (result_1 == (int *)NULL)
 		{
 			clnt_perror(clnt, "call failed");
-		}*/
+		}
 
 		bzero(msg.message, 269);
 		//printf("\nmessage sent!\n");
-		//my_revision += *result_1;
+		my_revision += *result_1;
 
 		
 	}
@@ -165,7 +165,7 @@ program_write_1(char *host)
 	pthread_t threads[2];
 	// Spawn the listen/receive deamons
 	pthread_create(&threads[0], NULL, readMessage, NULL);
-	//pthread_create(&threads[1], NULL, writeMessage, (void *) &msg);
+	pthread_create(&threads[1], NULL, writeMessage, (void *) &msg);
 
 	while(!done){
 	}
