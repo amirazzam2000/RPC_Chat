@@ -90,13 +90,13 @@ void  writeMessage()
 	int *result_1;
 	//Read input
 
-	bzero(msg.message, 269);
+	
 	
 	int ch = 0;
 	//err = mvwgetstr(bottom, input, 2, msg.message);
 	ch = mvwgetch(bottom, input, 2 + n_chars);
 	if (ch != ERR){
-		msg.message[n_chars] = ch;
+		msg.message[n_chars++] = ch;
 		if(ch == '\n'){
 			//fflush(stdin);
 			if (strcmp(msg.message, "\\exit") == 0)
@@ -107,6 +107,7 @@ void  writeMessage()
 			}
 
 			msg.message[strlen(msg.message) - 1] = 0;
+			
 			result_1 = write_1(&msg, clnt);
 			if (result_1 == (int *)NULL)
 			{
@@ -118,8 +119,8 @@ void  writeMessage()
 			//printf("\nmessage sent!\n");
 			//my_revision += *result_1;
 			n_chars=0;
-		}else{
-			n_chars++;
+			bzero(msg.message, 269);
+			wclear(bottom);
 		}
 	}
 
