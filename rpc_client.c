@@ -103,6 +103,10 @@ void  writeMessage()
 			mvwprintw(bottom, 2, 2 + (--n_chars), "\0");
 			msg.message[n_chars] = 0;
 		}
+		else 
+		{
+			mvwprintw(bottom, 2, 1 + (n_chars), "%c", ch );
+		}
 		if(ch == '\n')
 		{
 			//fflush(stdin);
@@ -163,7 +167,7 @@ program_write_1(char *host)
 	
 	initscr();
 	getmaxyx(stdscr, maxy, maxx);
-	echo();
+	noecho();
 
 	//WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x);
 	top = newwin((7 * maxy / 8), maxx, 0, 0);
