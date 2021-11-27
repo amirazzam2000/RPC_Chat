@@ -91,7 +91,7 @@ void * writeMessage(void *  message_aux)
 	{
 		bzero(msg.message, 269);
 		wrefresh(bottom);
-		mvwgetstr(bottom, input, 2, msg.message);
+		//mvwgetstr(bottom, input, 2, msg.message);
 		if (strcmp(msg.message, "\\exit") == 0)
 		{
 			done = 1;
@@ -100,7 +100,7 @@ void * writeMessage(void *  message_aux)
 		}
 
 		msg.message[strlen(msg.message) - 1] = 0;
-		result_1 = write_1(&msg, clnt);
+		//result_1 = write_1(&msg, clnt);
 		
 		bzero(msg.message, 269);
 		//printf("\nmessage sent!\n");
