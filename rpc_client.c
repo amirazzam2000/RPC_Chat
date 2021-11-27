@@ -86,7 +86,7 @@ void readMessage()
 
 void  writeMessage()
 {
-	//int *result_1;
+	int *result_1;
 	//Read input
 
 	bzero(msg.message, 269);
@@ -104,12 +104,12 @@ void  writeMessage()
 		}
 
 		msg.message[strlen(msg.message) - 1] = 0;
-		/*result_1 = write_1(&msg, clnt);
+		result_1 = write_1(&msg, clnt);
 		if (result_1 == (int *)NULL)
 		{
 			printf("can't write!\n");
 			clnt_perror(clnt, "call failed");
-		}*/
+		}
 
 		bzero(msg.message, 269);
 		//printf("\nmessage sent!\n");
