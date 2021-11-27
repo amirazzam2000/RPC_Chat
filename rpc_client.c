@@ -28,59 +28,60 @@ pthread_mutex_t mutexsum = PTHREAD_MUTEX_INITIALIZER;
 int my_revision = 0;
 CLIENT *clnt ;
 message msg;
+int ch_count = 0;
 
-void   readMessage()
+void readMessage()
 {
 	chat_block *chat;
 	
 	//Get chat
-	while(!done){
-		do
+	
+	do
+	{
+		chat = getchat_1(&my_revision, clnt);
+		if (chat == (chat_block *)NULL)
 		{
-			chat = getchat_1(&my_revision, clnt);
-			if (chat == (chat_block *)NULL)
-			{
-				printf("can't read!\n");
-				clnt_perror(clnt, "call failed");
-			}
+			printf("can't read!\n");
+			clnt_perror(clnt, "call failed");
+		}
 
-			//int mvwprintw(WINDOW *win, int y, int x, const char *fmt, ...);
+		//int mvwprintw(WINDOW *win, int y, int x, const char *fmt, ...);
 
-			if (chat->block[0] != 0)
+		if (chat->block[0] != 0)
+		{
+			int n = 0;
+			for (int i = 0; i < strlen(chat->block); i++)
 			{
-				int n = 0;
-				for (int i = 0; i < strlen(chat->block); i++)
+				if (chat->block[i] == '\n')
 				{
-					if (chat->block[i] == '\n')
-					{
-						if (line != maxy / 2 - 2)
-							line++;
-						else
-							scroll(top);
-
-						n = 0;
-					}
+					if (line != maxy / 2 - 2)
+						line++;
 					else
-					{
-						mvwprintw(top, line, 2 + n, "%c", chat->block[i]);
-						n++;
-					}
+						scroll(top);
+
+					n = 0;
 				}
-
-				//printf("%s", chat->block);
-
-				//printf("Reading\n");
-				my_revision = chat->revision_number;
+				else
+				{
+					mvwprintw(top, line, 2 + n, "%c", chat->block[i]);
+					n++;
+				}
 			}
 
-			/*
-		if (my_revision >= chat->total_revisions)
-		{
-			printf("No new messages!\n");
-		}*/
+			//printf("%s", chat->block);
 
-		} while (my_revision < chat->total_revisions);
-	}
+			//printf("Reading\n");
+			my_revision = chat->revision_number;
+		}
+
+		/*
+	if (my_revision >= chat->total_revisions)
+	{
+		printf("No new messages!\n");
+	}*/
+
+	} while (my_revision < chat->total_revisions);
+
 	//pthread_exit(NULL);
 }
 
@@ -88,37 +89,38 @@ void  writeMessage()
 {
 	//int *result_1;
 	//Read input
-	while (!done)
-	{
-		bzero(msg.message, 269);
-		mvwgetstr(bottom, input, 2, msg.message);
-		
-		if (msg.message[0] != 0){
-			//fflush(stdin);
+
+	
+	char c = 0;
+	c = mvwgetch(bottom, input, 2);
+	if (c != 0){
+		ch_count++;
+		msg.message[ch_count] = c;
+		if (c == '\n'){
 			if (strcmp(msg.message, "\\exit") == 0)
 			{
 				done = 1;
 				endwin();
-				pthread_exit(NULL);
+				//pthread_exit(NULL);
 			}
 
 			msg.message[strlen(msg.message) - 1] = 0;
 			/*result_1 = write_1(&msg, clnt);
-			if (result_1 == (int *)NULL)
-			{
-				printf("can't write!\n");
-				clnt_perror(clnt, "call failed");
-			}*/
+		if (result_1 == (int *)NULL)
+		{
+			printf("can't write!\n");
+			clnt_perror(clnt, "call failed");
+		}*/
 
 			bzero(msg.message, 269);
 			//printf("\nmessage sent!\n");
 			//my_revision += *result_1;
 
+			ch_count = 0;
+			bzero(msg.message, 269);
 		}
-
-		
 	}
-	
+
 	//pthread_exit( NULL );
 }
 
@@ -150,6 +152,7 @@ program_write_1(char *host)
 	initscr();
 	getmaxyx(stdscr, maxy, maxx);
 	echo();
+	raw();
 
 	//WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x);
 	top = newwin((7 * maxy / 8), maxx, 0, 0);
