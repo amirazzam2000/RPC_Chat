@@ -12,61 +12,55 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+#include <pthread.h>
+#include <curses.h>
+#include <termios.h>
 
-void
-program_write_1(char *host)
+int done = 0;
+
+WINDOW * top;
+WINDOW * bottom;
+int line = 1;	// Line position of top
+int input = 1;	// Line position of top
+int maxx, maxy; // Screen dimensions
+pthread_mutex_t mutexsum = PTHREAD_MUTEX_INITIALIZER;
+
+void readMessage()
 {
-	CLIENT *clnt;
-	int  *result_1;
-	message  msg;
-	chat_block  *chat;
-	int  my_revision = 0;
-
-#ifndef	DEBUG
-	clnt = clnt_create (host, PROGRAM_WRITE, VERSION_WRITE, "udp");
-	if (clnt == NULL) {
-		clnt_pcreateerror (host);
-		exit (1);
-	}
-#endif	/* DEBUG */
-	printf("Enter your username: ");
-	fgets(msg.name, 10, stdin);
-	msg.name[ strlen(msg.name) - 1 ] = 0;
-
-	int flags = fcntl(0, F_GETFL, 0);
-	fcntl(0, F_SETFL, flags | O_NONBLOCK);
-
-	printf("Welcome %s!\n", msg.name);
-	while(1)
+	chat_block *chat;
+	static int my_revision = 0;
+	//Get chat
+	do
 	{
-		//Get chat
-		do
+		if (NULL != chat->block)
+			bzero(chat->block, 269);
+
+		chat = getchat_1(&my_revision, clnt);
+		if (chat->block[0] != 0)
+			printf("%s", chat->block);
+
+		//printf("Reading\n");
+		my_revision = chat->revision_number;
+
+		if (my_revision >= chat->total_revisions)
 		{
-			if(NULL != chat->block)
-				bzero(chat->block, 269);
+			//printf("No new messages!\n");
+		}
 
-			chat = getchat_1(&my_revision, clnt);
-			if (chat->block[0] != 0)
-				printf("%s", chat->block);
+		if (chat == (chat_block *)NULL)
+		{
+			clnt_perror(clnt, "call failed");
+		}
 
-			//printf("Reading\n");
-			my_revision = chat->revision_number;
-			
-			if (my_revision >= chat->total_revisions)
-			{
-				//printf("No new messages!\n");
-			}
+	} while (my_revision < chat->total_revisions);
+}
 
-			if (chat == (chat_block *)NULL)
-			{
-				clnt_perror(clnt, "call failed");
-			}
-
-			
-		} while (my_revision < chat->total_revisions);
-		
-
-		//Read input
+void writeMessage()
+{
+	int *result_1;
+	message msg;
+	chat_block *chat;
+	//Read input
 		while (read(0, msg.message, sizeof(msg.message)) > 0)
 		{
 			msg.message[strlen(msg.message) - 1] = 0;
@@ -83,8 +77,46 @@ program_write_1(char *host)
 		}
 		fflush(stdin);	
 		if (strcmp(msg.message, "quit") == 0) break;
+}
 
-		//Sleep
+
+
+void
+program_write_1(char *host)
+{
+	CLIENT *clnt;
+
+#ifndef	DEBUG
+	clnt = clnt_create (host, PROGRAM_WRITE, VERSION_WRITE, "udp");
+	if (clnt == NULL) {
+		clnt_pcreateerror (host);
+		exit (1);
+	}
+#endif	/* DEBUG */
+	printf("Enter your username: ");
+	fgets(msg.name, 10, stdin);
+	msg.name[ strlen(msg.name) - 1 ] = 0;
+
+	int flags = fcntl(0, F_GETFL, 0);
+	fcntl(0, F_SETFL, flags | O_NONBLOCK);
+
+	printf("Welcome %s!\n", msg.name);
+
+	// insert ncurses code here : 
+	initscr();
+	getmaxyx(stdscr, maxy, maxx);
+
+	top = newwin(maxy / 4, maxx, 0, 0);
+    bottom = newwin(maxy / 4, maxx, maxy / 4, 0);
+
+    scrollok(top, TRUE);
+    scrollok(bottom, TRUE);
+    box(bottom, '|', '-');
+	
+	while(1)
+	{
+		readMessage();
+		writeMessage();
 		sleep(1);		
 	}
 	
