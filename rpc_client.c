@@ -166,7 +166,7 @@ program_write_1(char *host)
 	//wsetscrreg(top, 1, (7 * maxy / 8) - 2);
 	//wsetscrreg(bottom, 1, (maxy / 8) - 2);
 
-	pthread_t threads[2];
+	//pthread_t threads[2];
 	// Spawn the listen/receive deamons
 	//pthread_create(&threads[0], NULL, readMessage, NULL);
 	//pthread_create(&threads[1], NULL, writeMessage, NULL);
