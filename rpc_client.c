@@ -118,7 +118,7 @@ program_write_1(char *host)
 	while(1)
 	{
 		readMessage();
-		writeMessage(msg);
+		//writeMessage(msg);
 		sleep(1);		
 	}
 	
