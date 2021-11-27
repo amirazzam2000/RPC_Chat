@@ -120,7 +120,7 @@ program_write_1(char *host)
 		readMessage(clnt);
 		writeMessage(msg, clnt);
 		sleep(1);		
-	}*/
+	}
 	
 #ifndef	DEBUG
 	clnt_destroy (clnt);
