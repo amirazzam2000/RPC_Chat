@@ -91,7 +91,7 @@ void * writeMessage()
 	while (!done)
 	{
 		bzero(msg.message, 269);
-		mvwgetstr(bottom, input, 2, msg.message);
+		//mvwgetstr(bottom, input, 2, msg.message);
 		if (msg.message[0] != 0){
 			//printf("got string |%s|\n", msg.message);
 			fflush(stdin);
@@ -162,8 +162,8 @@ program_write_1(char *host)
 	box(top, '*', '=');
 	box(bottom, '|', '-');
 
-	wsetscrreg(top, 1, (7 * maxy / 8) - 2);
-	wsetscrreg(bottom, 1, (maxy / 8) - 2);
+	//wsetscrreg(top, 1, (7 * maxy / 8) - 2);
+	//wsetscrreg(bottom, 1, (maxy / 8) - 2);
 
 	pthread_t threads[2];
 	// Spawn the listen/receive deamons
