@@ -90,7 +90,6 @@ void * writeMessage(void *  message_aux)
 	while (!done)
 	{
 		bzero(msg.message, 269);
-		wrefresh(bottom);
 		//mvwgetstr(bottom, input, 2, msg.message);
 		if (strcmp(msg.message, "\\exit") == 0)
 		{
