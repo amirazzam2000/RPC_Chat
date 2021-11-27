@@ -55,10 +55,10 @@ void readMessage()
 	} while (my_revision < chat->total_revisions);
 }
 
-void writeMessage()
+void writeMessage(message msg)
 {
 	int *result_1;
-	message msg;
+	
 	chat_block *chat;
 	//Read input
 		while (read(0, msg.message, sizeof(msg.message)) > 0)
@@ -85,9 +85,10 @@ void
 program_write_1(char *host)
 {
 	CLIENT *clnt;
+	message msg;
 
 #ifndef	DEBUG
-	clnt = clnt_create (host, PROGRAM_WRITE, VERSION_WRITE, "udp");
+	clnt = clnt_create(host, PROGRAM_WRITE, VERSION_WRITE, "udp");
 	if (clnt == NULL) {
 		clnt_pcreateerror (host);
 		exit (1);
@@ -116,7 +117,7 @@ program_write_1(char *host)
 	while(1)
 	{
 		readMessage();
-		writeMessage();
+		writeMessage(msg);
 		sleep(1);		
 	}
 	
