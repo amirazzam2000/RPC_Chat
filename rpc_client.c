@@ -97,7 +97,8 @@ void  writeMessage()
 		{
 			mvwprintw(bottom, bottom_line, 1 + (n_chars_per_line), "%c", ch);
 
-			if (n_chars >= maxx - 4){
+			if (n_chars_per_line >= maxx - 4)
+			{
 				bottom_line++;
 				n_chars_per_line = 0;
 				if (bottom_line > (maxy / 8) - 1){
