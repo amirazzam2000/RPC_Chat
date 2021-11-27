@@ -28,7 +28,7 @@ pthread_mutex_t mutexsum = PTHREAD_MUTEX_INITIALIZER;
 int my_revision = 0;
 CLIENT *clnt ;
 
-void readMessage()
+void *  readMessage()
 {
 	chat_block *chat;
 	
