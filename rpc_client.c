@@ -102,8 +102,9 @@ void  writeMessage()
 				bottom_line++;
 				n_chars_per_line = 0;
 
-				if (bottom_line > (maxy / 8) - 2){
+				if (bottom_line > (maxy / 8) - 3){
 					scroll(bottom);
+					bottom_line--;
 				}
 			}
 		}
