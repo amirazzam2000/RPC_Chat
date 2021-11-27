@@ -33,9 +33,7 @@ void readMessage()
 	chat_block *chat;
 
 	bzero(chat->block, 269);
-
 	
-	printf("Starting!\n");
 	//Get chat
 	do
 	{
@@ -49,13 +47,14 @@ void readMessage()
 		if (chat->block[0] != 0)
 			printf("%s", chat->block);
 
-		printf("Reading\n");
+		//printf("Reading\n");
 		my_revision = chat->revision_number;
 
+		/*
 		if (my_revision >= chat->total_revisions)
 		{
 			printf("No new messages!\n");
-		}
+		}*/
 
 	} while (my_revision < chat->total_revisions);
 }
@@ -119,7 +118,7 @@ program_write_1(char *host)
 	while(1)
 	{
 		readMessage();
-		//writeMessage(msg);
+		writeMessage(msg);
 		sleep(1);		
 	}
 	
