@@ -59,7 +59,7 @@ void *  readMessage()
 
 					n = 0;
 				}else{
-					mvwprintw(top, line, 2 + n, chat->block[i]);
+					mvwprintw(top, line, 2 + n, "%c", chat->block[i]);
 					n++;
 				}
 				
