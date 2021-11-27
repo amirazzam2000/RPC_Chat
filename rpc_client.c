@@ -20,21 +20,17 @@ int done = 0;
 
 WINDOW * top;
 WINDOW * bottom;
-int line = 1;	// Line position of top
-int maxx, maxy; // Screen dimensions
-pthread_mutex_t mutexsum = PTHREAD_MUTEX_INITIALIZER;
+int line = 1;	
+int maxx, maxy; 
 
 int my_revision = 0;
 CLIENT *clnt ;
 message msg;
 int n_chars = 0;
 
-void readMessage()
+void readMessage() 
 {
 	chat_block *chat;
-	
-	//Get chat
-	
 	do
 	{
 		chat = getchat_1(&my_revision, clnt);
@@ -43,8 +39,6 @@ void readMessage()
 			printf("can't read!\n");
 			clnt_perror(clnt, "call failed");
 		}
-
-		//int mvwprintw(WINDOW *win, int y, int x, const char *fmt, ...);
 
 		if (chat->block[0] != 0)
 		{
@@ -66,35 +60,27 @@ void readMessage()
 					n++;
 				}
 			}
-
-			//printf("%s", chat->block);
-
-			//printf("Reading\n");
+			
 			my_revision = chat->revision_number;
 		}
 
-		/*
-	if (my_revision >= chat->total_revisions)
-	{
-		printf("No new messages!\n");
-	}*/
-
 	} while (my_revision < chat->total_revisions);
 
-	//pthread_exit(NULL);
 }
 
 void  writeMessage()
 {
 	int *result_1;
-	//Read input
-
-	
-	
 	int ch = 0;
-	//err = mvwgetstr(bottom, input, 2, msg.message);
 	ch = mvwgetch(bottom, 2, 2 + n_chars);
-	if (ch != ERR){
+	if (ch == KEY_UP){
+		scroll(top);
+	}
+	else if (ch == KEY_DOWN)
+	{
+		wscrl(top, -1);
+	}
+	else if (ch != ERR){
 		msg.message[n_chars++] = ch;
 			
 		if (ch == 8 || ch == '^' || ch == 127){
@@ -109,12 +95,11 @@ void  writeMessage()
 		}
 		if(ch == '\n')
 		{
-			//fflush(stdin);
+
 			if (strcmp(msg.message, "\\exit") == 0)
 			{
 				done = 1;
 				endwin();
-				//pthread_exit(NULL);
 			}
 
 			msg.message[strlen(msg.message) - 1] = 0;
@@ -127,8 +112,6 @@ void  writeMessage()
 			}
 
 			bzero(msg.message, 269);
-			//printf("\nmessage sent!\n");
-			//my_revision += *result_1;
 			n_chars=0;
 			bzero(msg.message, 269);
 			wclear(bottom);
@@ -137,9 +120,7 @@ void  writeMessage()
 		}
 	}
 
-	//pthread_exit( NULL );
 }
-
 
 
 void
@@ -163,46 +144,28 @@ program_write_1(char *host)
 
 	printf("Welcome %s!\n", msg.name);
 
-	// insert ncurses code here : 
+	//ncurses code here : 
 	
 	initscr();
 	getmaxyx(stdscr, maxy, maxx);
 	noecho();
+	keypad(stdscr, TRUE);
 
-	//WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x);
 	top = newwin((7 * maxy / 8), maxx, 0, 0);
 	bottom = newwin((maxy / 8), maxx, (7 * maxy / 8), 0);
-
 
     scrollok(top, TRUE);
     scrollok(bottom, TRUE);
 
-
-	//box(top, '*', '=');
 	box(bottom, '|', '-');
 	mvwprintw(bottom, 1, 2, "[%s] -->", msg.name);
 
-	//wsetscrreg(top, 1, (7 * maxy / 8) - 2);
-	//wsetscrreg(bottom, 1, (maxy / 8) - 2);
-
-	//pthread_t threads[2];
-	// Spawn the listen/receive deamons
-	//pthread_create(&threads[0], NULL, readMessage, NULL);
-	//pthread_create(&threads[1], NULL, writeMessage, NULL);
-
-	done = 1;
 	while(1){
 		wrefresh(top);
 		wrefresh(bottom);
 		readMessage();
 		writeMessage();
 	}
-	/*while(1)
-	{
-		readMessage();
-		writeMessage(msg);
-		sleep(1);		
-	}*/
 	
 #ifndef	DEBUG
 	clnt_destroy (clnt);
