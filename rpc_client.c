@@ -21,7 +21,7 @@ int done = 0;
 WINDOW * top;
 WINDOW * bottom;
 int line = 1;	// Line position of top
-int input = 1;	// Line position of top
+int input = 1;	// Line position of bottom
 int maxx, maxy; // Screen dimensions
 pthread_mutex_t mutexsum = PTHREAD_MUTEX_INITIALIZER;
 
@@ -41,12 +41,39 @@ void *  readMessage()
 			clnt_perror(clnt, "call failed");
 		}
 
+		
+		
 
-		if (chat->block[0] != 0)
-			printf("%s", chat->block);
+			//int mvwprintw(WINDOW *win, int y, int x, const char *fmt, ...);
 
-		//printf("Reading\n");
-		my_revision = chat->revision_number;
+		if (chat->block[0] != 0){
+			int n = 0;
+			for (int i = 0; i < strlen(chat->block); i++)
+			{
+				if (chat->block[i] == '\n')
+				{
+					if (line != maxy / 2 - 2)
+						line += count_n;
+					else
+						scroll(top);
+
+					n = 0;
+				}else{
+					mvwprintw(top, line, 2 + n, chat->block[i]);
+					n++;
+				}
+				
+			}
+
+			
+			//printf("%s", chat->block);
+
+			
+
+			//printf("Reading\n");
+			my_revision = chat->revision_number;
+		}
+
 
 		/*
 		if (my_revision >= chat->total_revisions)
