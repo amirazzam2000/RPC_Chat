@@ -28,7 +28,6 @@ pthread_mutex_t mutexsum = PTHREAD_MUTEX_INITIALIZER;
 int my_revision = 0;
 CLIENT *clnt ;
 message msg;
-int ch_count = 0;
 
 void readMessage()
 {
@@ -90,35 +89,32 @@ void  writeMessage()
 	//int *result_1;
 	//Read input
 
+	bzero(msg.message, 269);
 	
-	char c = 0;
-	c = mvwgetch(bottom, input, 2);
-	if (c != 0){
-		ch_count++;
-		msg.message[ch_count] = c;
-		if (c == '\n'){
-			if (strcmp(msg.message, "\\exit") == 0)
-			{
-				done = 1;
-				endwin();
-				//pthread_exit(NULL);
-			}
+	int err = 0;
+	err = mvwgetstr(bottom, input, 2, msg.message);
+	
+	if (err != ERR && msg.message[0] != 0){
+		//fflush(stdin);
+		if (strcmp(msg.message, "\\exit") == 0)
+		{
+			done = 1;
+			endwin();
+			//pthread_exit(NULL);
+		}
 
-			msg.message[strlen(msg.message) - 1] = 0;
-			/*result_1 = write_1(&msg, clnt);
+		msg.message[strlen(msg.message) - 1] = 0;
+		/*result_1 = write_1(&msg, clnt);
 		if (result_1 == (int *)NULL)
 		{
 			printf("can't write!\n");
 			clnt_perror(clnt, "call failed");
 		}*/
 
-			bzero(msg.message, 269);
-			//printf("\nmessage sent!\n");
-			//my_revision += *result_1;
+		bzero(msg.message, 269);
+		//printf("\nmessage sent!\n");
+		//my_revision += *result_1;
 
-			ch_count = 0;
-			bzero(msg.message, 269);
-		}
 	}
 
 	//pthread_exit( NULL );
