@@ -97,7 +97,7 @@ void  writeMessage()
 	if (ch != ERR){
 		msg.message[n_chars++] = ch;
 			
-		if (ch == 8 || ch == '^'){
+		if (ch == 8 || ch == '^' || ch == 127){
 			mvwprintw(bottom, 2, 2 + (--n_chars), "\0");
 			msg.message[n_chars] = 0;
 			mvwprintw(bottom, 2, 2 + (--n_chars), "\0");
