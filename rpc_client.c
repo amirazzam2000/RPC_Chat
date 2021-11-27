@@ -31,8 +31,6 @@ CLIENT *clnt ;
 void readMessage()
 {
 	chat_block *chat;
-
-	bzero(chat->block, 269);
 	
 	//Get chat
 	do
