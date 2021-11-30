@@ -51,8 +51,10 @@ void readMessage()
 				{
 					if (line != (7 * maxy / 8))
 						line++;
-					else
+					else{
 						scroll(top);
+						line--;
+					}
 
 					n = 0;
 				}
