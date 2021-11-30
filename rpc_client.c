@@ -53,6 +53,8 @@ void readMessage()
 						line++;
 					else{
 						scroll(top);
+						scroll(top);
+						line--;
 						line--;
 					}
 
