@@ -49,7 +49,7 @@ void readMessage()
 			{
 				if (chat->block[i] == '\n')
 				{
-					if (line != (7 * maxy / 8))
+					if (line != (7 * maxy / 8) - 2)
 						line++;
 					else{
 						scroll(top);
